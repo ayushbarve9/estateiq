@@ -160,3 +160,70 @@ class ContactResponse(BaseModel):
     report_ready: bool
     summary: dict | None = None
     message: str
+
+
+class OfferStrategyRequest(BaseModel):
+    model_config = {"str_strip_whitespace": True, "extra": "forbid"}
+
+    property_value: float = Field(..., gt=0)
+    price_low: float = Field(..., gt=0)
+    price_high: float = Field(..., gt=0)
+    target_offer: float = Field(..., gt=0)
+    city: str | None = Field(default=None, max_length=60)
+    locality: str | None = Field(default=None, max_length=80)
+
+    @model_validator(mode="after")
+    def validate_bounds(self) -> "OfferStrategyRequest":
+        if self.price_high <= self.price_low:
+            raise ValueError("price_high must be greater than price_low")
+        return self
+
+
+class LoanPrepaymentRequest(BaseModel):
+    model_config = {"str_strip_whitespace": True, "extra": "forbid"}
+
+    loan_amount: float = Field(..., gt=0)
+    annual_rate_pct: float = Field(default=8.5, ge=5.0, le=20.0)
+    tenure_years: int = Field(default=20, ge=1, le=35)
+    monthly_prepayment: float = Field(default=0.0, ge=0.0)
+    annual_lumpsum: float = Field(default=0.0, ge=0.0)
+
+
+class BuyVsRentRequest(BaseModel):
+    model_config = {"str_strip_whitespace": True, "extra": "forbid"}
+
+    property_value: float = Field(..., gt=0)
+    city: str | None = Field(default=None, max_length=60)
+    state: str | None = Field(default=None, max_length=60)
+    down_payment_pct: float = Field(default=20.0, ge=0.0, le=100.0)
+    annual_rate_pct: float = Field(default=8.5, ge=5.0, le=20.0)
+    tenure_years: int = Field(default=20, ge=1, le=35)
+    is_under_construction: bool = Field(default=False)
+    rental_yield_pct: float | None = Field(default=None, ge=0.5, le=15.0)
+    property_appreciation_pct: float = Field(default=6.5, ge=0.0, le=25.0)
+    rent_escalation_pct: float = Field(default=5.0, ge=0.0, le=20.0)
+    equity_cagr_pct: float = Field(default=12.0, ge=0.0, le=30.0)
+    simulation_years: int = Field(default=20, ge=5, le=30)
+
+
+class PropertyCompareItem(BaseModel):
+    model_config = {"str_strip_whitespace": True}
+
+    name: str = Field(..., min_length=1, max_length=120)
+    property_value: float = Field(..., gt=0)
+    area_sqft: float = Field(default=1200.0, gt=0)
+    bhk: int = Field(default=3, ge=1, le=12)
+    age_years: int = Field(default=2, ge=0, le=100)
+    city: str | None = Field(default="Mumbai (MMR)", max_length=60)
+    locality: str | None = Field(default=None, max_length=80)
+    price_low: float | None = Field(default=None, gt=0)
+    price_high: float | None = Field(default=None, gt=0)
+    down_payment_pct: float = Field(default=20.0, ge=0.0, le=100.0)
+    annual_rate_pct: float = Field(default=8.5, ge=5.0, le=20.0)
+    tenure_years: int = Field(default=20, ge=1, le=35)
+    rental_yield_pct: float | None = Field(default=None, ge=0.5, le=15.0)
+
+
+class PropertyCompareRequest(BaseModel):
+    properties: list[PropertyCompareItem] = Field(..., min_length=2, max_length=4)
+

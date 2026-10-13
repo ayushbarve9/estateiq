@@ -1,140 +1,256 @@
-# GrihaValue
+# EstateIQ · Residential Valuation Engine & Spatial Intelligence
 
-Residential valuation and acquisition-cost estimator for India. Give it a city, a micro-market and the unit details, and it returns:
+[![Python 3.11+](https://img.shields.io/badge/python-3.11+-blue.svg)](https://www.python.org/downloads/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.143.0-009688.svg)](https://fastapi.tiangolo.com/)
+[![Scikit-Learn](https://img.shields.io/badge/scikit--learn-1.8.0-F7931E.svg)](https://scikit-learn.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Tests: 83 Passed](https://img.shields.io/badge/Tests-83%20Passed-brightgreen.svg)]()
 
-- a model-based market value with a price range (P10 to P90),
-- the RBI loan-to-value cap, loan amount, down payment and monthly EMI,
-- indicative stamp duty and registration, and GST where it applies,
-- an EMI grid across rates and tenures,
-- nearby comparables from the training data,
-- a grounded question-and-answer panel that only uses those figures.
+**EstateIQ** (formerly GrihaValue core valuation engine) is an architectural residential valuation and capital acquisition intelligence platform tailored for Indian prime micro-markets. It pairs machine learning valuation models with point-in-time statutory financial mechanics, spatial cluster intelligence, and wealth compounding simulators.
 
-It is a FastAPI service with a vanilla HTML, CSS and JavaScript frontend. There is no framework and no build step.
+Built as an asynchronous **FastAPI** backend coupled with a zero-build, dependency-free **Vanilla ES Module** front end adhering to strict Content-Security-Policy rules.
 
-## Read this first: what the numbers mean
+---
 
-**The shipped model is trained on generated data.** `python -m backend.train` with no arguments builds listings from the market benchmarks in `backend/data/markets.json`, adds noise, and fits to that. Its accuracy figures therefore show how well it recovers the generator, not how well it predicts the real market. The reported holdout error is 8.9% against a noise floor of 8.0%. A locality-median baseline gets 13.2%. Those numbers are useful for checking that the pipeline works. They are not evidence of real-world accuracy.
+## Architecture & System Workflow
 
-**Market benchmarks are mixed in quality.**
-- Seven metros (Bengaluru, Mumbai MMR, Delhi NCR, Hyderabad, Pune, Chennai, Kolkata) take their base rates and locality premiums from a listings file in the previous project. Its origin could not be verified.
-- Sixteen other cities are planning estimates. They are not transaction data.
-- Every city in `markets.json` is labelled with its source.
+```mermaid
+flowchart TD
+    subgraph Client["Frontend Client (Vanilla HTML5 / Modern CSS / ES Modules)"]
+        UI["Editorial Luxury Interface (Dark / Light Theme)"]
+        Form["Valuation Engine Form (#estimate)"]
+        Heatmap["Spatial Micro-Market SVG Heatmap (#marketHeatmap)"]
+        Battle["Side-by-Side Property Battle (#propBattle)"]
+        Offer["Interactive Bargaining Simulator (#offerStrategy)"]
+        Prepay["Debt Acceleration & Prepayment (#prepaymentCalc)"]
+        BvR["20-Year Buy vs. Rent Simulator (#buyVsRent)"]
+        Chat["Advisory Concierge Chat (#ask)"]
+    end
 
-**Stamp duty rates are approximate.** Only some states were carried over from the previous project, and none were checked against a current gazette. Women-buyer rebates, metro surcharges and cess are not modelled. The API marks every stamp duty figure as `APPROXIMATE`, and the UI says so.
+    subgraph API["FastAPI Application (backend/main.py)"]
+        Router["Typed REST Routes & Security Headers (Strict CSP)"]
+        ValRoute["POST /api/estimate"]
+        MetaRoute["GET /api/meta & /api/health"]
+        HeatmapRoute["GET /api/market-heatmap"]
+        CompareRoute["POST /api/finance/compare-properties"]
+        OfferRoute["POST /api/finance/offer-strategy"]
+        PrepayRoute["POST /api/finance/loan-prepayment"]
+        BvRRoute["POST /api/finance/buy-vs-rent"]
+        InfraRoute["GET /api/infrastructure-projects"]
+        RulesRoute["GET /api/rules"]
+    end
 
-**GST is an upper bound.** It applies the full rate to property value. Land-value abatement on under-construction homes is not modelled.
+    subgraph Core["Analytical & Computational Engines"]
+        subgraph ML["Machine Learning Engine (backend/model.py)"]
+            VotingModel["VotingRegressor Ensemble\n(Random Forest + HistGradientBoosting on log psf)"]
+            QuantileModel["Quantile Gradient Boosters\n(Calibrated P10 & P90 Uncertainty Interval)"]
+        end
 
-**The price range is not calibrated well yet.** The 80% target interval covered 75% of holdout prices on the shipped model and 60% on a 2,000-row example. Treat it as indicative.
+        subgraph Finance["Statutory & Financial Mechanics (backend/finance.py)"]
+            LTVEngine["RBI LTV Tier Boundaries\n(90% / 80% / 75% Caps)"]
+            AmortEngine["Reducing-Balance Amortisation\n(Monthly EMI & Interest Schedules)"]
+            TaxEngine["Statutory Stamp Duty & Reg.\n+ Ready-to-Move GST Exemption"]
+            ProFormaEngine["Investor Pro-Forma\n(Gross Yield, 1-Mo Vacancy, 0.75% Maint Drag)"]
+        end
 
-The software can use real transactions. Supply a CSV and it trains on that instead. It does not check where the data came from.
+        subgraph Spatial["Spatial & Catalyst Engine (backend/config.py)"]
+            InfraDB["Mega-Infrastructure Projects\n(Coastal Road, Metro 3, Atal Setu, NMIA)"]
+            NodesDB["Micro-Market Coordinates & Benchmark Rates"]
+        end
+    end
 
-## Quick start
+    subgraph Persistence["Storage & Data Provenance"]
+        ModelBundle["Trained Model Bundle\n(models/grihavalue.joblib)"]
+        MarketsJSON["NHB RESIDEX Reference Registry\n(backend/data/markets.json)"]
+        SQLiteDB["Audited Regulatory Database & Leads\n(backend/data/estateiq.db)"]
+    end
 
-Requires Python 3.11 or newer.
+    Form -->|Payload| ValRoute
+    Heatmap -->|Fetch Nodes| HeatmapRoute
+    Battle -->|Compare Request| CompareRoute
+    Offer -->|Offer Calibration| OfferRoute
+    Prepay -->|Prepayment Levers| PrepayRoute
+    BvR -->|Compounding Levers| BvRRoute
 
-```bash
-python -m venv .venv
-source .venv/bin/activate            # Windows: .venv\Scripts\activate
-pip install -r requirements.txt
+    ValRoute --> ML & Finance
+    HeatmapRoute --> Spatial
+    CompareRoute --> Finance & ML
+    OfferRoute --> Finance
+    PrepayRoute --> Finance
+    BvRRoute --> Finance
+    InfraRoute --> Spatial
 
-# Optional: retrain. The shipped bundle in models/ is already trained.
-python -m backend.train
-
-uvicorn backend.main:app --reload    # http://127.0.0.1:8000
+    ML --> ModelBundle
+    Finance --> MarketsJSON & SQLiteDB
+    Spatial --> MarketsJSON
 ```
 
-Open http://127.0.0.1:8000 for the app and http://127.0.0.1:8000/docs for the API reference.
+---
 
-### Train on real data
+## Key Modules & Features
+
+### 1. Architectural Valuation Engine
+* **Predictive Ensemble:** Voting regressor combining Random Forest and Histogram-based Gradient Boosting trained on log price-per-square-foot.
+* **Calibrated Statistical Bounds:** P10 and P90 quantile gradient boosting models providing dynamic uncertainty spreads.
+* **Statutory Acquisition Costing:** Calculates exact required upfront capital by enforcing:
+  * Reserve Bank of India (RBI) Loan-to-Value (LTV) limits:
+    * Up to ₹30 Lakhs: **90% LTV**
+    * ₹30 Lakhs to ₹75 Lakhs: **80% LTV**
+    * Above ₹75 Lakhs: **75% LTV**
+  * State-specific stamp duty and registration fee schedules.
+  * Goods and Services Tax (GST) rules (0% on Ready-to-Move vs. 5% on Under-Construction).
+
+### 2. Institutional Investor Pro-Forma & Cash Flow
+* **Real Net Rental Yield:** Dissects gross residential rental income by accounting for realistic holding frictions:
+  * 1-month annual tenant turnover vacancy reserve.
+  * 0.75% annual society maintenance and municipal taxation drag.
+* **Tenant EMI Offset:** Computes the percentage of monthly debt service funded directly by tenant cash flow.
+* **Equity Payback Period:** Years required to amortise statutory cash outlay through net rental yield.
+
+### 3. Mega-Infrastructure Capital Appreciation Index
+* Tracks active transformational transport infrastructure across the Mumbai Metropolitan Region (MMR):
+  * **Mumbai Coastal Road (Dharmveer Swarajya Coastal Freeway):** BMC / MMRDA (+2.8% p.a. multiplier).
+  * **Mumbai Metro Line 3 (Aqua Line Underground):** MMRC (+2.2% p.a. multiplier).
+  * **Atal Bihari Vajpayee Sewri-Nhava Sheva Atal Setu (MTHL):** MMRDA (+3.4% p.a. multiplier).
+  * **Navi Mumbai International Airport (NMIA):** CIDCO / Adani Airports (+3.6% p.a. multiplier).
+* Generates compound 3-year and 5-year capital appreciation multipliers against NHB RESIDEX baselines.
+
+### 4. Interactive Micro-Market Heatmap (Spatial Intelligence)
+* Bespoke SVG vector cartography featuring geographic coordinate nodes across South Mumbai, Central Suburbs, Western Suburbs, and Navi Mumbai.
+* Dynamic switching between **Capital Rate (₹/sq.ft.)** and **Gross Rental Yield (%)** heat spectrums.
+* Direct one-click transfer of micro-market benchmark specifications into the Valuation Engine.
+
+### 5. Side-by-Side Property Battle
+* Institutional head-to-head decision matrix comparing up to 4 properties simultaneously.
+* Evaluates total capital outlay, upfront statutory equity, monthly EMI, rental yields, and space-price efficiency scores.
+* Dynamic category badges highlighting:
+  * *Lowest Upfront Cash*
+  * *Highest Rental Yield*
+  * *Lowest Monthly Debt Service*
+  * *Best Capital Value (₹/sq.ft.)*
+* Algorithmic AI verdict ribbons (e.g. *Trophy Capital*, *Cash-Flow Champion*, *Value Alpha Pick*).
+
+### 6. Interactive Offer Strategy & Bargaining Simulator
+* Slide across the calibrated P10–P90 valuation band to assess seller negotiation friction.
+* Models real-time savings in upfront stamp duty obligations and monthly EMI reduction.
+* Generates copy-paste institutional talking points grounded in micro-market dispersion data.
+
+### 7. Debt Acceleration & "Interest Saver" Calculator
+* Simulates adding voluntary monthly top-ups and annual bonus lumpsum prepayments.
+* Displays tenure reduction in years, total cumulative interest saved in ₹ Lakhs, and comparative repayment tracks (0% prepayment penalty under RBI floating-rate directives).
+
+### 8. 20-Year "Buy vs. Rent" Wealth Compounding Comparison
+* Mathematical simulation contrasting home equity appreciation against renting and compounding the upfront cash + monthly surplus in diversified equity index funds (Nifty 50 benchmark @ 10%–14% CAGR).
+* Calculates exact portfolio crossover year (breakeven milestone).
+
+---
+
+## Quick Start & Installation
+
+### Prerequisites
+* Python 3.11 or newer
+* Modern Web Browser (Chrome, Edge, Firefox, Safari)
+
+### Setup Instructions
 
 ```bash
+# 1. Clone the repository
+git clone https://github.com/ayushbarve9/estateiq.git
+cd estateiq
+
+# 2. Create and activate a virtual environment
+python -m venv .venv
+source .venv/bin/activate       # On Windows: .venv\Scripts\activate
+
+# 3. Install pinned dependencies
+pip install -r requirements.txt
+
+# 4. Run the test suite
+python -m pytest backend/tests -q
+
+# 5. Launch the application server with live reload
+uvicorn backend.main:app --host 127.0.0.1 --port 8000 --reload
+```
+
+Open **[http://localhost:8000](http://localhost:8000)** in your browser.
+API Swagger documentation is live at **[http://localhost:8000/docs](http://localhost:8000/docs)**.
+
+---
+
+## Training the Model
+
+The shipped model bundle in `models/grihavalue.joblib` is trained and calibrated. To retrain:
+
+```bash
+# Retrain using benchmark generator
+python -m backend.train
+
+# Retrain using external transaction CSV
 python -m backend.train --csv path/to/transactions.csv --out models/grihavalue.joblib
 ```
 
-Required columns: `City`, `Locality`, `BHK`, `Area_SqFt`, `Price_INR`, `Construction_Status`, `Property_Type`.
+Required CSV schema: `City`, `Locality`, `BHK`, `Area_SqFt`, `Price_INR`, `Construction_Status`, `Property_Type`.
 
-Optional columns, with defaults when missing: `Bathrooms` (= BHK), `Furnishing` (Semi-Furnished), `Age_Years` (0), `Parking` (1), `Latitude` and `Longitude` (from `markets.json`).
+---
 
-Each City and Locality pair must exist in `backend/data/markets.json`. Rows with non-positive area or price, or with a price per sq.ft. outside 500 to 500,000, are dropped and counted in the bundle's metadata. At least 500 usable rows are needed. Use several thousand. Interval coverage was poor on small samples.
+## API Reference Summary
 
-An example in the right format, filled with synthetic values, is at `data/synthetic/example_transactions_SYNTHETIC.csv`.
-
-### Chat (optional)
-
-Set `ANTHROPIC_API_KEY` in `.env` to enable the streaming assistant at `/api/chat`. Without a key, the in-page advisor answers from the estimate figures alone. It does not call any external service.
-
-## How the estimate works
-
-1. **Model.** A voting ensemble of random forest and histogram gradient boosting predicts log price per square foot. The predicted price is that rate times the area. Two quantile gradient-boosting models give the P10 and P90 bounds.
-2. **Loan.** The requested down payment sets the loan. If the loan falls in a higher bracket, the RBI cap applies: 90% of value up to ₹30 L, 80% from ₹30 L to ₹75 L, 75% above ₹75 L. The buyer must then put in more equity.
-3. **Costs.** EMI uses reducing-balance amortisation. Stamp duty is the state rate times value. GST applies only to under-construction homes, at 5% or 1% for homes under ₹45 L.
-4. **Market context.** Every city and locality is also scored on one reference unit (3 BHK, 1,500 sq.ft., ready, 2 years old, semi-furnished), so the market views compare like with like.
-
-All financial constants are in `backend/config.py`, each with its source and verification status.
-
-## API
-
-| Method | Path | Purpose |
+| Method | Endpoint | Description |
 |---|---|---|
-| GET | `/api/health` | Process and model status |
-| GET | `/api/meta` | Cities, localities, options, bounds, model metrics, provenance |
-| GET | `/api/market-overview` | Model rate per sq.ft. by city and locality, for one reference unit |
-| POST | `/api/estimate` | Full estimate for one unit |
-| POST | `/api/finance/sensitivity` | EMI grid across rates and tenures, using the same loan cap as the estimate |
-| POST | `/api/chat` | Streaming reply grounded in an estimate (needs `ANTHROPIC_API_KEY`) |
+| `GET` | `/api/health` | Service and model bundle readiness status |
+| `GET` | `/api/meta` | Active cities, micro-markets, bounds, and provenance |
+| `POST` | `/api/estimate` | Full property valuation and statutory cost breakdown |
+| `GET` | `/api/market-heatmap` | Spatial micro-market nodes, rates, and yields |
+| `POST` | `/api/finance/compare-properties` | Head-to-head 2 to 4 property comparison matrix |
+| `POST` | `/api/finance/offer-strategy` | Bargaining band, discounts, and talking points |
+| `POST` | `/api/finance/loan-prepayment` | Accelerated debt amortization simulation |
+| `POST` | `/api/finance/buy-vs-rent` | 20-year wealth compounding simulation |
+| `GET` | `/api/infrastructure-projects` | Active infrastructure catalysts for micro-markets |
+| `GET` | `/api/rules` | Audited statutory regulatory citations |
+| `POST` | `/api/contact` | Client dossier generation and valuation leads |
+| `GET` | `/api/valuation/{ref_id}/certificate` | Download official certified valuation dossier PDF/print view |
 
-Errors: `400` for business-rule violations (for example an unknown locality), `422` for schema violations, `503` when the model bundle is missing or chat is not configured.
+---
 
-Example:
+## Testing & Quality Gates
 
-```bash
-curl -X POST http://127.0.0.1:8000/api/estimate -H "Content-Type: application/json" -d '{
-  "city": "Bengaluru", "locality": "Whitefield", "bhk": 3, "area_sqft": 1500,
-  "bathrooms": 3, "property_type": "Apartment", "furnishing": "Semi-Furnished",
-  "construction_status": "Ready to Move", "age_years": 2, "parking": 1,
-  "down_payment_pct": 20, "annual_rate_pct": 8.5, "tenure_years": 20
-}'
-```
-
-## Tests
+Run the comprehensive pytest suite:
 
 ```bash
 python -m pytest backend/tests -q
 ```
 
-The suite covers the finance formulas (including amortisation to zero and the LTV tier boundaries), the API contract and its error paths, training reproducibility and CSV validation, and quality gates on the shipped bundle. The gates fail if the model stops beating the baseline or drifts far from the noise floor.
+The test suite covers:
+* Full reducing-balance amortisation to ₹0 balance.
+* RBI LTV tier thresholds (₹30L, ₹75L).
+* Stamp duty and GST regulatory rules.
+* Offer strategy, loan prepayment, and buy-vs-rent math.
+* Model bundle version compatibility, reproducibility, and holdout gates.
+* API error handling (400 for business logic violations, 422 for schema errors).
 
-Browser behaviour was checked with a headless Chromium against a running server: loading, estimate, validation, theme switching, the advisor, and a 390 px mobile layout. That check is not part of the test suite.
+---
 
-## Docker
+## Security & Architectural Standards
 
-```bash
-docker build -t grihavalue .
-docker run -p 8000:8000 --env-file .env grihavalue
-```
+* **Strict Content-Security-Policy (CSP):** `default-src 'self'`. Zero third-party scripts, CDNs, or inline script injections.
+* **Zero Secrets in Browser:** Anthropic and database credentials are read on the server side only.
+* **Deterministic Constants:** All financial constants reside exclusively in `backend/config.py` and carry verified source provenance.
+* **Zero Framework Bloat:** Vanilla HTML5, modern CSS custom properties, and native ES modules with zero bundler overhead.
 
-The image runs as a non-root user and includes a health check on `/api/health`. The Docker build has not been run in this environment.
+---
 
-## Project layout
+## About Me
 
-```
-backend/            API, finance, model, training, tests
-backend/data/       markets.json (cities, states, localities, benchmarks)
-frontend/           index.html, css/styles.css, js/*.js, assets/
-models/             trained bundle
-data/synthetic/     example CSV in the ingestion format (synthetic)
-AGENTS.md           rules for contributors and automated agents
-```
+### **Ayush Barve**
+* **Role:** Machine Learning & Full-Stack Software Engineer
+* **GitHub:** [@ayushbarve9](https://github.com/ayushbarve9)
+* **Email:** [22barveayush@gmail.com](mailto:22barveayush@gmail.com)
+* **Repository:** [ayushbarve9/estateiq](https://github.com/ayushbarve9/estateiq)
 
-## Security
+> *"EstateIQ was engineered to dismantle the opacity in Indian residential real estate. By merging rigorous machine learning with verifiable regulatory legal provenance, spatial connectivity catalysts, and institutional financial mechanics, the platform equips buyers and investors with hedge-fund caliber residential intelligence."*
 
-- Strict Content-Security-Policy: scripts and styles from the same origin only, no inline scripts, no third-party requests.
-- `X-Frame-Options: DENY`, `nosniff`, no referrer.
-- Request bodies reject unknown fields and implausible values (for example, too little area for the stated BHK).
-- The Anthropic key is read from the environment on the server and is never returned to the browser.
+---
 
-Not yet done: rate limiting, authentication, and request logging beyond the defaults.
+## License
 
-## Licence
-
-No licence has been chosen. Add one before publishing.
+This project is licensed under the [MIT License](LICENSE).

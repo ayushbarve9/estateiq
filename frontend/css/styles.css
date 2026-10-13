@@ -2043,6 +2043,1079 @@ td.hi { background: rgba(212, 175, 55, 0.15); font-weight: 700; color: var(--acc
   color: var(--accent);
 }
 
+/* ==========================================================================
+   INSTITUTIONAL INVESTOR PRO-FORMA & RENTAL YIELD ARCHITECTURE
+   ========================================================================== */
+.proforma-card {
+  margin-top: 24px;
+  background: var(--surface-glass);
+  border: 1px solid var(--line-gold);
+  border-radius: var(--radius);
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.proforma-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+  margin: 20px 0;
+}
+
+.pro-kpi-tile {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.pro-kpi-tile:hover {
+  transform: translateY(-2px);
+  border-color: var(--line-gold);
+}
+
+.pro-kpi-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.pro-kpi-value {
+  font-size: 1.45rem;
+  font-weight: 700;
+  font-family: var(--sans);
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.pro-kpi-sub {
+  font-size: 0.76rem;
+  color: var(--muted);
+}
+
+.highlight-gold { color: var(--accent) !important; }
+.highlight-emerald { color: #34d399 !important; }
+.highlight-cyan { color: #38bdf8 !important; }
+
+.proforma-cashflow-strip {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  margin-bottom: 18px;
+}
+
+.flow-pill {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  min-width: 120px;
+}
+
+.flow-pill small {
+  font-size: 0.7rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.flow-pill strong {
+  font-size: 0.96rem;
+  color: var(--text);
+}
+
+.flow-pill.negative {
+  border-color: rgba(248, 113, 113, 0.3);
+  background: rgba(248, 113, 113, 0.06);
+}
+
+.flow-pill.negative strong {
+  color: #f87171;
+}
+
+.flow-pill.positive {
+  border-color: rgba(52, 211, 153, 0.4);
+  background: rgba(52, 211, 153, 0.08);
+}
+
+.flow-pill.positive strong {
+  color: #34d399;
+}
+
+.flow-op {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--muted);
+  padding: 0 4px;
+}
+
+.proforma-cta-row {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ==========================================================================
+   MEGA-INFRASTRUCTURE CAPITAL APPRECIATION INDEX
+   ========================================================================== */
+.infra-card {
+  margin-top: 24px;
+  background: var(--surface-glass);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+.infra-catalyst-deck {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 16px;
+}
+
+.infra-metrics-box {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 16px 20px;
+}
+
+.infra-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.infra-stat .stat-lbl {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.infra-stat .stat-val {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.infra-plus {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.infra-stat-divider {
+  width: 1px;
+  height: 36px;
+  background: var(--line);
+  margin: 0 8px;
+}
+
+.infra-projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+
+.infra-project-card {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.infra-project-card:hover {
+  border-color: var(--line-gold);
+  transform: translateY(-2px);
+}
+
+.infra-proj-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.infra-proj-agency {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent);
+}
+
+.infra-proj-year {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.infra-proj-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.infra-proj-summary {
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  line-height: 1.45;
+}
+
+.infra-proj-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+}
+
+.infra-boost-pill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: rgba(212, 175, 55, 0.15);
+  color: var(--accent-light);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+/* ==========================================================================
+   MICRO-MARKET HEATMAP (MUMBAI MMR)
+   ========================================================================== */
+.map-heatmap-panel {
+  background: var(--surface-glass);
+  border: 1px solid var(--line-gold);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+.map-controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.map-metric-toggles {
+  display: inline-flex;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 3px;
+  gap: 4px;
+}
+
+.map-toggle-btn {
+  background: transparent;
+  border: none;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 7px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.map-toggle-btn.active {
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 700;
+}
+
+.map-legend-pills {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.legend-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.74rem;
+  color: var(--text-dim);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-high { background: #d4af37; box-shadow: 0 0 8px rgba(212, 175, 55, 0.8); }
+.dot-mid { background: #5c7cfa; box-shadow: 0 0 8px rgba(92, 124, 250, 0.8); }
+.dot-growth { background: #34d399; box-shadow: 0 0 8px rgba(52, 211, 153, 0.8); }
+
+.mumbai-map-stage {
+  position: relative;
+  background: radial-gradient(circle at 40% 60%, #0d1522 0%, #070a10 100%);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.7);
+}
+
+.mumbai-vector-canvas {
+  width: 100%;
+  height: auto;
+  display: block;
+  min-height: 480px;
+}
+
+.map-node-group {
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.map-node-group:hover {
+  filter: drop-shadow(0 0 10px rgba(212, 175, 55, 0.6));
+}
+
+.map-node-card {
+  position: absolute;
+  bottom: 24px;
+  right: 24px;
+  width: 280px;
+  background: rgba(18, 24, 36, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--line-gold);
+  border-radius: var(--radius-sm);
+  padding: 16px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.6);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.node-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.node-card-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--accent);
+  letter-spacing: 0.06em;
+}
+
+.node-card-bhk {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.node-card-name {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+}
+
+.node-card-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  padding: 8px 0;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.node-card-stats small {
+  display: block;
+  font-size: 0.68rem;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.node-card-stats strong {
+  font-size: 0.92rem;
+  color: var(--text);
+}
+
+/* ==========================================================================
+   SIDE-BY-SIDE PROPERTY BATTLE
+   ========================================================================== */
+.battle-panel {
+  background: var(--surface-glass);
+  border: 1px solid var(--line-gold);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+.battle-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.battle-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tag-gold {
+  display: inline-block;
+  padding: 4px 10px;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: rgba(212, 175, 55, 0.18);
+  color: var(--accent-light);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  border-radius: 999px;
+}
+
+.battle-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.battle-winners-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+  padding: 12px 16px;
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+}
+
+.winner-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.winner-chip .lbl {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.winner-chip strong {
+  font-size: 0.9rem;
+  color: var(--text);
+}
+
+.battle-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.battle-slot-card {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: relative;
+  transition: border-color 0.25s ease, transform 0.25s ease;
+}
+
+.battle-slot-card:hover {
+  border-color: var(--line-gold);
+  transform: translateY(-2px);
+}
+
+.battle-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.slot-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.slot-prop-name {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-top: 2px;
+}
+
+.slot-prop-price {
+  font-size: 1.55rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.slot-metrics-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.slot-metrics-table td {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--text-dim);
+}
+
+.slot-metrics-table td:last-child {
+  text-align: right;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.slot-verdict-banner {
+  padding: 10px 14px;
+  border-radius: 8px;
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  font-size: 0.78rem;
+  color: var(--text);
+  line-height: 1.4;
+  margin-top: auto;
+}
+
+/* ==========================================================================
+   OFFER STRATEGY & BARGAINING SIMULATOR
+   ========================================================================== */
+.offer-panel {
+  background: var(--surface-glass);
+  border: 1px solid var(--line-gold);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+.offer-layout {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 900px) {
+  .offer-layout { grid-template-columns: 1fr; }
+}
+
+.offer-controls-card {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.offer-tier-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.offer-tier-pill {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 999px;
+  background: rgba(212, 175, 55, 0.2);
+  color: var(--accent-light);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.offer-amount-display {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.offer-lbl {
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
+.offer-val-wrap {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.offer-val-cr {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.offer-diff-tag {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+.offer-slider-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.offer-slider-track-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.offer-slider-track-labels .mid { text-align: center; }
+.offer-slider-track-labels .r { text-align: right; }
+.offer-slider-track-labels strong { display: block; color: var(--text); }
+
+.offer-range-slider {
+  width: 100%;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.offer-tier-description {
+  font-size: 0.82rem;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+.offer-savings-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.sav-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.sav-tile small {
+  font-size: 0.7rem;
+  color: var(--muted);
+  text-transform: uppercase;
+}
+
+.sav-tile strong {
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.offer-brief-card {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+}
+
+.brief-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.brief-title-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.brief-title-group h4 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.brief-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.brief-bullets li {
+  position: relative;
+  padding-left: 20px;
+  font-size: 0.82rem;
+  line-height: 1.55;
+  color: var(--text-dim);
+}
+
+.brief-bullets li::before {
+  content: "✦";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 0.75rem;
+  top: 1px;
+}
+
+.copy-toast {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(52, 211, 153, 0.18);
+  border: 1px solid #34d399;
+  color: #34d399;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  animation: fadeIn 0.3s ease;
+}
+
+/* ==========================================================================
+   LOAN PREPAYMENT & INTEREST SAVER CALCULATOR
+   ========================================================================== */
+.prepay-panel {
+  background: var(--surface-glass);
+  border: 1px solid var(--line-gold);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+.prepay-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 900px) {
+  .prepay-layout { grid-template-columns: 1fr; }
+}
+
+.prepay-inputs-card {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.prepay-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.prepay-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.prepay-field-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.prepay-field-head label {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.prepay-badge {
+  font-size: 0.82rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(212, 175, 55, 0.16);
+  color: var(--accent-light);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+}
+
+.prepay-context-row {
+  margin-top: auto;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.prepay-results-card {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.prepay-kpi-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.pre-kpi-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.pre-kpi-card.highlight-green-glow {
+  border-color: rgba(52, 211, 153, 0.4);
+  box-shadow: 0 0 16px rgba(52, 211, 153, 0.1);
+}
+
+.pre-kpi-card.highlight-gold-glow {
+  border-color: rgba(212, 175, 55, 0.4);
+  box-shadow: 0 0 16px rgba(212, 175, 55, 0.1);
+}
+
+.pre-kpi-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.pre-kpi-val {
+  font-size: 1.7rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.pre-kpi-sub {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.prepay-bars-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.prepay-bar-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.bar-lbl-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+}
+
+.bar-track {
+  width: 100%;
+  height: 12px;
+  background: var(--surface);
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+
+.bar-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+.bar-fill.base-fill { background: var(--muted); opacity: 0.6; }
+.bar-fill.accel-fill { background: linear-gradient(90deg, #34d399, #10b981); }
+
+/* ==========================================================================
+   20-YEAR BUY VS RENT WEALTH COMPOUNDING
+   ========================================================================== */
+.bvr-panel {
+  background: var(--surface-glass);
+  border: 1px solid var(--line-gold);
+  border-radius: var(--radius);
+  padding: 24px;
+}
+
+.bvr-controls-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.bvr-crossover-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: rgba(212, 175, 55, 0.16);
+  border: 1px solid rgba(212, 175, 55, 0.35);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--accent-light);
+}
+
+.bvr-param-toggles {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.bvr-param {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+.bvr-select {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  color: var(--text);
+  font-size: 0.78rem;
+  padding: 6px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.bvr-milestones-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.bvr-milestone-card {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.bvr-milestone-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--line-gold);
+}
+
+.bvr-m-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bvr-m-year {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.bvr-m-winner-tag {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.bvr-m-winner-tag.buyer {
+  background: rgba(52, 211, 153, 0.18);
+  color: #34d399;
+  border: 1px solid rgba(52, 211, 153, 0.35);
+}
+
+.bvr-m-winner-tag.renter {
+  background: rgba(92, 124, 250, 0.18);
+  color: #5c7cfa;
+  border: 1px solid rgba(92, 124, 250, 0.35);
+}
+
+.bvr-stat-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+}
+
+.bvr-stat-row .lbl { color: var(--muted); }
+.bvr-stat-row strong { color: var(--text); }
+
+.bvr-methodology-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 20px;
+  font-size: 0.74rem;
+  color: var(--muted);
+  line-height: 1.45;
+}
+
 @media print {
   body { background: #ffffff !important; color: #111111 !important; }
   .topbar, .hero, #estimate, #market, #method, #ask, .footer, .skip-link, #rulesModal { display: none !important; }

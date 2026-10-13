@@ -333,8 +333,12 @@
     </a>
     <nav class="nav" aria-label="Primary">
       <a href="#estimate">Valuation Engine</a>
+      <a href="#marketHeatmap">Micro-Market Map</a>
+      <a href="#propBattle">Property Battle</a>
+      <a href="#offerStrategy">Bargaining Simulator</a>
+      <a href="#prepaymentCalc">Loan Prepayment</a>
+      <a href="#buyVsRent">Buy vs. Rent</a>
       <a href="#market">Prime Markets</a>
-      <a href="#method">Methodology</a>
       <a href="#ask">Advisor Concierge</a>
       <a href="#rulesModal" id="rulesNavBtn">Statutory Rules</a>
     </nav>
@@ -709,6 +713,107 @@
               </div>
             </article>
 
+            <!-- INVESTOR PRO-FORMA & RENTAL CASH FLOW ARCHITECTURE -->
+            <article class="panel proforma-card reveal" id="proformaPanel">
+              <header class="card-head">
+                <div>
+                  <p class="eyebrow" style="margin-bottom:4px;">INSTITUTIONAL INVESTOR PRO-FORMA</p>
+                  <h3>Deep Rental Yield &amp; Cash Flow Architecture</h3>
+                </div>
+                <span class="badge badge-emerald" id="proformaYieldBadge">Yield: Loading...</span>
+              </header>
+
+              <div class="proforma-kpi-grid">
+                <div class="pro-kpi-tile">
+                  <span class="pro-kpi-label">Gross Monthly Rent</span>
+                  <span class="pro-kpi-value highlight-gold" id="proMonthlyRent">₹–</span>
+                  <span class="pro-kpi-sub">Annual: <strong id="proAnnualRent">₹–</strong></span>
+                </div>
+                <div class="pro-kpi-tile">
+                  <span class="pro-kpi-label">Real Net Rental Yield</span>
+                  <span class="pro-kpi-value highlight-emerald" id="proNetYield">-%</span>
+                  <span class="pro-kpi-sub">Less maint drag &amp; 1-mo vacancy</span>
+                </div>
+                <div class="pro-kpi-tile">
+                  <span class="pro-kpi-label">Tenant EMI Coverage</span>
+                  <span class="pro-kpi-value highlight-cyan" id="proEmiOffset">-%</span>
+                  <span class="pro-kpi-sub">Of monthly mortgage payment</span>
+                </div>
+                <div class="pro-kpi-tile">
+                  <span class="pro-kpi-label">Equity Payback Period</span>
+                  <span class="pro-kpi-value" id="proPayback">– Yrs</span>
+                  <span class="pro-kpi-sub">To recoup initial statutory equity</span>
+                </div>
+              </div>
+
+              <div class="proforma-cashflow-strip">
+                <div class="flow-pill">
+                  <small>Gross Rent</small>
+                  <strong id="flowGrossRent">₹–</strong>
+                </div>
+                <span class="flow-op">−</span>
+                <div class="flow-pill negative">
+                  <small>1-Mo Vacancy Reserve</small>
+                  <strong id="flowVacancy">₹–</strong>
+                </div>
+                <span class="flow-op">−</span>
+                <div class="flow-pill negative">
+                  <small>Society Maint &amp; Tax (0.75%)</small>
+                  <strong id="flowMaint">₹–</strong>
+                </div>
+                <span class="flow-op">=</span>
+                <div class="flow-pill positive">
+                  <small>Real Net Annual Cash Flow</small>
+                  <strong id="flowNetCash">₹–</strong>
+                </div>
+              </div>
+
+              <div class="proforma-cta-row">
+                <button type="button" class="btn btn-secondary btn-sm" id="addCurrentToBattleBtn">
+                  <svg class="ico xs" aria-hidden="true"><use href="#i-sparkle"/></svg>
+                  <span>Load Into Side-by-Side Property Battle ↓</span>
+                </button>
+              </div>
+            </article>
+
+            <!-- MEGA-INFRASTRUCTURE IMPACT & APPRECIATION CATALYSTS -->
+            <article class="panel infra-card reveal" id="infraPanel">
+              <header class="card-head">
+                <div>
+                  <p class="eyebrow" style="margin-bottom:4px;">CONNECTIVITY CATALYSTS &amp; APPRECIATION MULTIPLIER</p>
+                  <h3>Mega-Infrastructure Capital Appreciation Index</h3>
+                </div>
+                <span class="badge badge-gold" id="infraCatalystBadge">Catalyst Multiplier</span>
+              </header>
+
+              <div class="infra-catalyst-deck">
+                <div class="infra-metrics-box">
+                  <div class="infra-stat">
+                    <span class="stat-lbl">Baseline NHB CAGR</span>
+                    <span class="stat-val" id="infraBaseCagr">6.5%</span>
+                  </div>
+                  <div class="infra-plus">+</div>
+                  <div class="infra-stat">
+                    <span class="stat-lbl">Catalyst Boosted CAGR</span>
+                    <span class="stat-val highlight-gold" id="infraCatalystCagr">9.3%</span>
+                  </div>
+                  <div class="infra-stat-divider"></div>
+                  <div class="infra-stat">
+                    <span class="stat-lbl">Projected 3-Yr Multiplier</span>
+                    <span class="stat-val highlight-emerald" id="infra3YrMult">1.31×</span>
+                  </div>
+                  <div class="infra-stat">
+                    <span class="stat-lbl">Projected 5-Yr Multiplier</span>
+                    <span class="stat-val highlight-emerald" id="infra5YrMult">1.56×</span>
+                  </div>
+                </div>
+
+                <div class="infra-projects-grid" id="infraProjectsGrid">
+                  <!-- Dynamically populated chips for Coastal Road, Metro 3, Atal Setu, NMIA -->
+                </div>
+              </div>
+            </article>
+
             <!-- STATUTORY PROVENANCE & RULE RESOLUTION AUDIT -->
             <article class="panel rules-audit-card reveal" id="rulesAuditPanel">
               <header class="card-head">
@@ -760,10 +865,341 @@
       </div>
     </section>
 
-    <!-- ============ PRIME MARKETS ============ -->
+    <!-- ============ SECTION 02: MICRO-MARKET HEATMAP (MAP VIEW) ============ -->
+    <section id="marketHeatmap" class="section">
+      <header class="section-head reveal">
+        <p class="eyebrow">02 · Spatial Intelligence</p>
+        <h2>Interactive Micro-Market Heatmap (Mumbai MMR)</h2>
+        <p class="muted">Visual geographic comparison across prime coastal, downtown financial, and growth nodes. Click any micro-market node to automatically populate the Valuation Engine with that locality's benchmark specifications.</p>
+      </header>
+
+      <div class="panel map-heatmap-panel reveal">
+        <div class="map-controls-bar">
+          <div class="map-metric-toggles" id="mapMetricToggles">
+            <button type="button" class="map-toggle-btn active" data-mode="rate">Capital Rate (₹/sq.ft.)</button>
+            <button type="button" class="map-toggle-btn" data-mode="yield">Gross Rental Yield (%)</button>
+          </div>
+          <div class="map-legend-pills">
+            <span class="legend-pill"><span class="dot dot-high"></span> Ultra-Prime (&gt;₹75k/sq.ft)</span>
+            <span class="legend-pill"><span class="dot dot-mid"></span> Core Commercial CBD (₹45k–₹75k)</span>
+            <span class="legend-pill"><span class="dot dot-growth"></span> Growth &amp; Tech Hub (&lt;₹45k)</span>
+          </div>
+        </div>
+
+        <div class="mumbai-map-stage" id="mumbaiMapStage">
+          <svg class="mumbai-vector-canvas" id="mumbaiMapSvg" viewBox="0 0 1000 680" aria-label="Interactive Mumbai Micro-Market Heatmap">
+            <defs>
+              <radialGradient id="nodeGlowHigh" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#d4af37" stop-opacity="0.9"/>
+                <stop offset="60%" stop-color="#d4af37" stop-opacity="0.3"/>
+                <stop offset="100%" stop-color="#d4af37" stop-opacity="0"/>
+              </radialGradient>
+              <radialGradient id="nodeGlowYield" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stop-color="#34d399" stop-opacity="0.9"/>
+                <stop offset="60%" stop-color="#34d399" stop-opacity="0.3"/>
+                <stop offset="100%" stop-color="#34d399" stop-opacity="0"/>
+              </radialGradient>
+            </defs>
+
+            <!-- Stylized Mumbai Coastline & Waterways -->
+            <path class="map-coastline" d="M 120 40 Q 200 120 220 200 T 260 320 T 280 430 T 250 540 T 200 620 L 150 640 L 80 600 L 70 300 Z" fill="#0f1624" stroke="#1d283a" stroke-width="2"/>
+            <path class="map-mainland" d="M 450 40 Q 550 140 650 220 T 780 340 T 840 480 T 890 620 L 980 620 L 980 40 Z" fill="#0c121d" stroke="#1d283a" stroke-width="2"/>
+            <path class="map-creek" d="M 320 180 Q 450 280 500 420 T 480 600" fill="none" stroke="#141c2c" stroke-width="24" stroke-linecap="round"/>
+            
+            <!-- Arterial Lines: Coastal Road & Atal Setu MTHL -->
+            <path class="map-artery" d="M 210 600 Q 240 500 250 430 Q 260 340 240 280 Q 230 220 220 160" fill="none" stroke="rgba(212,175,55,0.4)" stroke-dasharray="6,4" stroke-width="2.5"/>
+            <path class="map-mthl" d="M 290 490 Q 480 500 750 510" fill="none" stroke="rgba(52,211,153,0.5)" stroke-dasharray="8,5" stroke-width="3"/>
+            <text x="470" y="475" fill="#34d399" font-size="11" font-weight="600" letter-spacing="1">ATAL SETU (MTHL)</text>
+            <text x="135" y="380" fill="#d4af37" font-size="11" font-weight="600" letter-spacing="1" transform="rotate(-75 135 380)">COASTAL ROAD</text>
+
+            <!-- Geographic Nodes Container -->
+            <g id="mapNodesContainer"></g>
+          </svg>
+
+          <!-- Floating Node Info HUD -->
+          <div class="map-node-card" id="mapNodeHud" hidden>
+            <div class="node-card-head">
+              <span class="node-card-tag" id="hudNodeTag">Ultra-Luxury Oceanfront</span>
+              <span class="node-card-bhk" id="hudNodeBhk">3 BHK · 2,200 sq.ft</span>
+            </div>
+            <h4 class="node-card-name" id="hudNodeName">Worli Sea Face</h4>
+            <div class="node-card-stats">
+              <div>
+                <small>Benchmark Rate</small>
+                <strong id="hudNodeRate">₹83,727 / sq.ft</strong>
+              </div>
+              <div>
+                <small>Gross Yield</small>
+                <strong class="highlight-emerald" id="hudNodeYield">2.4% p.a.</strong>
+              </div>
+            </div>
+            <button type="button" class="btn btn-primary btn-xs" id="hudNodeSelectBtn">
+              <span>Load in Valuation Engine ↑</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 03: SIDE-BY-SIDE HOUSE COMPARISON MATRIX ("PROPERTY BATTLE") ============ -->
+    <section id="propBattle" class="section">
+      <header class="section-head reveal">
+        <p class="eyebrow">03 · Institutional Decision Matrix</p>
+        <h2>Side-by-Side House Comparison ("Property Battle")</h2>
+        <p class="muted">Compare up to 3 shortlisted residences head-to-head on capital outlay, required statutory cash, monthly mortgage commitment, space-efficiency, and institutional algorithmic AI verdict.</p>
+      </header>
+
+      <div class="panel battle-panel reveal">
+        <div class="battle-toolbar">
+          <div class="battle-title-group">
+            <span class="tag-gold">HEAD-TO-HEAD MATRIX</span>
+            <span class="muted small">Select configurations or load your active valuation into any slot:</span>
+          </div>
+          <div class="battle-actions">
+            <button type="button" class="btn btn-secondary btn-xs" id="loadPresetBattleBtn">
+              <span>Reset to Prime MMR Trio</span>
+            </button>
+            <button type="button" class="btn btn-primary btn-xs" id="loadActiveIntoSlot1Btn">
+              <svg class="ico xs" aria-hidden="true"><use href="#i-sparkle"/></svg>
+              <span>Load Active Valuation into Slot 1</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="battle-winners-strip" id="battleWinnersStrip">
+          <div class="winner-chip">
+            <span class="lbl">Lowest Upfront Cash:</span>
+            <strong id="winCash">–</strong>
+          </div>
+          <div class="winner-chip">
+            <span class="lbl">Highest Rental Yield:</span>
+            <strong id="winYield" class="highlight-emerald">–</strong>
+          </div>
+          <div class="winner-chip">
+            <span class="lbl">Lowest Monthly EMI:</span>
+            <strong id="winEmi">–</strong>
+          </div>
+          <div class="winner-chip">
+            <span class="lbl">Best Capital Value (₹/sq.ft):</span>
+            <strong id="winPsf" class="highlight-gold">–</strong>
+          </div>
+        </div>
+
+        <div class="battle-cards-grid" id="battleCardsGrid">
+          <!-- Dynamically populated via app.js -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 04: INTERACTIVE OFFER STRATEGY & BARGAINING SIMULATOR ============ -->
+    <section id="offerStrategy" class="section">
+      <header class="section-head reveal">
+        <p class="eyebrow">04 · Negotiation Intelligence</p>
+        <h2>Interactive Offer Strategy &amp; Bargaining Simulator</h2>
+        <p class="muted">Slide across the statistical P10–P90 valuation band to model seller friction, upfront stamp duty savings, EMI reductions, and generate copy-paste negotiation leverage talking points for broker negotiations.</p>
+      </header>
+
+      <div class="panel offer-panel reveal">
+        <div class="offer-layout">
+          <div class="offer-controls-card">
+            <div class="offer-tier-header">
+              <span class="offer-tier-pill" id="offerTierPill">FAIR MARKET BENCHMARK (P50)</span>
+              <span class="muted small" id="offerPercentileText">50th Percentile</span>
+            </div>
+
+            <div class="offer-amount-display">
+              <span class="offer-lbl">Your Target Offer to Seller</span>
+              <div class="offer-val-wrap">
+                <span class="offer-val-cr" id="offerTargetDisplay">₹2.85 Cr</span>
+                <span class="offer-diff-tag" id="offerDiffTag">Benchmark Valuation Equilibrium</span>
+              </div>
+            </div>
+
+            <div class="offer-slider-wrap">
+              <div class="offer-slider-track-labels">
+                <span><small>P10 (Distress / Bargain)</small><strong id="offerP10Label">₹2.62 Cr</strong></span>
+                <span class="mid"><small>P50 (Median)</small><strong id="offerP50Label">₹2.85 Cr</strong></span>
+                <span class="r"><small>P90 (Trophy Premium)</small><strong id="offerP90Label">₹3.08 Cr</strong></span>
+              </div>
+              <input type="range" class="offer-range-slider" id="offerSlider" min="0" max="100" step="1" value="50" aria-label="Bargaining offer percentile slider">
+            </div>
+
+            <p class="offer-tier-description" id="offerTierDesc">
+              Supported by bank valuation panels and recent NHB micro-market transactions. Optimal acceptance probability with zero deal friction.
+            </p>
+
+            <div class="offer-savings-row">
+              <div class="sav-tile">
+                <small>Discount vs Fair Median</small>
+                <strong id="offerDiscountVal">₹0</strong>
+              </div>
+              <div class="sav-tile">
+                <small>Stamp Duty Saved</small>
+                <strong id="offerStampSaved" class="highlight-gold">₹0</strong>
+              </div>
+              <div class="sav-tile">
+                <small>Monthly EMI Trimmed</small>
+                <strong id="offerEmiTrimmed" class="highlight-emerald">₹0 / mo</strong>
+              </div>
+            </div>
+          </div>
+
+          <div class="offer-brief-card">
+            <div class="brief-head">
+              <div class="brief-title-group">
+                <svg class="ico sm text-gold" aria-hidden="true"><use href="#i-shield"/></svg>
+                <h4>Institutional Negotiation Brief</h4>
+              </div>
+              <button type="button" class="btn btn-secondary btn-xs" id="copyNegotiationBriefBtn">
+                <svg class="ico xs" aria-hidden="true"><use href="#i-send"/></svg>
+                <span>Copy Talking Points</span>
+              </button>
+            </div>
+            <p class="muted small">Direct algorithmic arguments calibrated against primary registry data and NHB price dispersion:</p>
+
+            <ul class="brief-bullets" id="briefBulletsList">
+              <li>Statistical P10-P90 spread anchors median valuation at fair market benchmark; offering targeted sum reflects active liquidity calibration.</li>
+              <li>A negotiated closing reduces your statutory stamp duty burden and trims monthly EMI commitment significantly.</li>
+              <li>Citing recent comparable transaction velocity in this micro-market, lower-quartile offers supported by immediate pre-approval enjoy top closing success.</li>
+            </ul>
+
+            <div class="copy-toast" id="copyToast" hidden>
+              <svg class="ico xs" aria-hidden="true"><use href="#i-check"/></svg>
+              <span>Negotiation brief copied to clipboard!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 05: SMART LOAN PREPAYMENT & "INTEREST SAVER" CALCULATOR ============ -->
+    <section id="prepaymentCalc" class="section">
+      <header class="section-head reveal">
+        <p class="eyebrow">05 · Debt Acceleration Architecture</p>
+        <h2>Loan Prepayment &amp; "Interest Saver" Calculator</h2>
+        <p class="muted">Indian mortgages at 8.5%–9.5% often incur cumulative interest exceeding the original principal. Simulate adding a modest monthly top-up or annual bonus lumpsum to slash years off your mortgage and save ₹ Lakhs in interest.</p>
+      </header>
+
+      <div class="panel prepay-panel reveal">
+        <div class="prepay-layout">
+          <div class="prepay-inputs-card">
+            <div class="prepay-card-head">
+              <span class="tag-gold">PREPAYMENT LEVERS</span>
+              <span class="muted small">Floating-rate loans carry 0% prepayment penalty (RBI mandate)</span>
+            </div>
+
+            <div class="prepay-field">
+              <div class="prepay-field-head">
+                <label for="monthlyPrepaySlider"><span>Extra Monthly EMI Prepayment</span></label>
+                <output id="monthlyPrepayOut" class="prepay-badge highlight-gold">+₹10,000 / mo</output>
+              </div>
+              <input type="range" id="monthlyPrepaySlider" min="0" max="100000" step="2500" value="10000" aria-label="Extra monthly prepayment slider">
+              <small class="hint">Added to every regular EMI schedule</small>
+            </div>
+
+            <div class="prepay-field">
+              <div class="prepay-field-head">
+                <label for="annualLumpsumSlider"><span>Extra Annual Lumpsum Prepayment (Year-End)</span></label>
+                <output id="annualLumpsumOut" class="prepay-badge highlight-gold">+₹1,00,000 / yr</output>
+              </div>
+              <input type="range" id="annualLumpsumSlider" min="0" max="1000000" step="25000" value="100000" aria-label="Extra annual lumpsum prepayment slider">
+              <small class="hint">Paid once every 12 months (e.g. from annual bonus or dividends)</small>
+            </div>
+
+            <div class="prepay-context-row">
+              <span class="muted small">Base Loan: <strong id="prepayBaseLoan">₹2.00 Cr</strong> @ <strong id="prepayBaseRate">8.5%</strong> over <strong id="prepayBaseTenure">20 Yrs</strong></span>
+            </div>
+          </div>
+
+          <div class="prepay-results-card">
+            <div class="prepay-kpi-grid">
+              <div class="pre-kpi-card highlight-green-glow">
+                <span class="pre-kpi-label">Tenure Slashed</span>
+                <span class="pre-kpi-val highlight-emerald" id="prepayYearsSaved">6.4 Yrs</span>
+                <span class="pre-kpi-sub">Reduced from <span id="prepayOriginalTenure">20</span> to <strong id="prepayNewTenure">13.6 Yrs</strong></span>
+              </div>
+              <div class="pre-kpi-card highlight-gold-glow">
+                <span class="pre-kpi-label">Total Interest Saved</span>
+                <span class="pre-kpi-val highlight-gold" id="prepayInterestSaved">₹42.8 Lakhs</span>
+                <span class="pre-kpi-sub"><strong id="prepayInterestSavedPct">36.2%</strong> of loan interest eliminated</span>
+              </div>
+            </div>
+
+            <div class="prepay-bars-wrap">
+              <div class="prepay-bar-item">
+                <div class="bar-lbl-row">
+                  <span>Standard 20-Year Repayment:</span>
+                  <strong id="barBaseTotal">₹4.16 Cr</strong>
+                </div>
+                <div class="bar-track">
+                  <div class="bar-fill base-fill" style="width: 100%;"></div>
+                </div>
+              </div>
+              <div class="prepay-bar-item">
+                <div class="bar-lbl-row">
+                  <span class="highlight-emerald">Accelerated Repayment:</span>
+                  <strong class="highlight-emerald" id="barAccelTotal">₹3.42 Cr</strong>
+                </div>
+                <div class="bar-track">
+                  <div class="bar-fill accel-fill" id="barAccelFill" style="width: 82%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 06: 20-YEAR "BUY VS. RENT" WEALTH COMPOUNDING COMPARISON ============ -->
+    <section id="buyVsRent" class="section">
+      <header class="section-head reveal">
+        <p class="eyebrow">06 · Strategic Wealth Architecture</p>
+        <h2>20-Year "Buy vs. Rent" Wealth Compounding Comparison</h2>
+        <p class="muted">A mathematical simulation comparing Home Ownership Equity against Renting &amp; Compounding the down payment + monthly cashflow surplus in equity mutual funds (Nifty 50 benchmark @ 12% p.a.).</p>
+      </header>
+
+      <div class="panel bvr-panel reveal">
+        <div class="bvr-controls-bar">
+          <div class="bvr-crossover-pill" id="bvrCrossoverPill">
+            <svg class="ico xs" aria-hidden="true"><use href="#i-sparkle"/></svg>
+            <span>CROSSOVER YEAR: <strong>YEAR 8</strong> (Buying Surpasses Renting)</span>
+          </div>
+
+          <div class="bvr-param-toggles">
+            <div class="bvr-param">
+              <label for="bvrEquityCagr"><span>Nifty 50 Equity CAGR:</span></label>
+              <select id="bvrEquityCagr" class="bvr-select">
+                <option value="10">10.0% p.a. (Conservative)</option>
+                <option value="12" selected>12.0% p.a. (Historical 15-Yr)</option>
+                <option value="14">14.0% p.a. (Aggressive)</option>
+              </select>
+            </div>
+            <div class="bvr-param">
+              <label for="bvrPropCagr"><span>Property Appreciation:</span></label>
+              <select id="bvrPropCagr" class="bvr-select">
+                <option value="5.5">5.5% (Conservative)</option>
+                <option value="6.5" selected>6.5% (NHB RESIDEX Core)</option>
+                <option value="8.5">8.5% (High Growth)</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div class="bvr-milestones-grid" id="bvrMilestonesGrid">
+          <!-- Dynamically populated via app.js -->
+        </div>
+
+        <div class="bvr-methodology-note">
+          <svg class="ico xs text-gold" aria-hidden="true"><use href="#i-shield"/></svg>
+          <span>Model incorporates 0.75% annual society maintenance &amp; municipal drag, 5% annual rental inflation, reducing loan amortization, and zero exit penalties.</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SECTION 07: PRIME MARKETS ============ -->
     <section id="market" class="section">
       <header class="section-head reveal">
-        <p class="eyebrow">02 · Prime Markets</p>
+        <p class="eyebrow">07 · Prime Markets</p>
         <h2>Capital Value Benchmarks Across India</h2>
         <p class="muted">Predicted rate per sq.ft. for a standardized benchmark reference residence (3 BHK, 1,500 sq.ft., ready to move, 2 years old, semi-furnished) to ensure true apple-to-apple comparison across micro-markets.</p>
       </header>

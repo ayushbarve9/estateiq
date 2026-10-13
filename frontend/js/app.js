@@ -44,6 +44,11 @@ document.addEventListener("DOMContentLoaded", () => {
   wireChat();
   wireRulesExplorer();
   wireClusterPills();
+  initMarketHeatmap();
+  initPropertyBattle();
+  initOfferStrategy();
+  initLoanPrepayment();
+  initBuyVsRent();
   loadMeta().catch((err) => showFormError(`Could not load markets: ${err.message}`));
 });
 
@@ -1293,6 +1298,11 @@ function renderEstimate(est) {
   renderAppliedRules(est);
   renderSensitivity(est);
   renderComparables(est);
+  renderProforma(est);
+  renderInfraProjects(est);
+  updateOfferStrategy(est);
+  updateLoanPrepayment(est);
+  updateBuyVsRent(est);
 
   $("#compKind").textContent = est.comparables_kind === "synthetic"
     ? "Benchmark dataset"
@@ -1873,6 +1883,615 @@ function renderRulesTable() {
       </tr>
     `;
   }).join("");
+}
+
+// ---------------------------------------------------------------------------
+// Interactive Micro-Market Heatmap (Mumbai MMR)
+// ---------------------------------------------------------------------------
+
+let activeHeatmapMetric = "rate"; // "rate" | "yield"
+let heatmapNodesData = [];
+
+async function initMarketHeatmap() {
+  const container = $("#mapNodesContainer");
+  const hud = $("#mapNodeHud");
+  const toggles = $("#mapMetricToggles");
+  if (!container) return;
+
+  try {
+    const res = await fetch("/api/market-heatmap");
+    if (!res.ok) throw new Error(await errorText(res));
+    heatmapNodesData = await res.json();
+    renderHeatmapNodes();
+  } catch (err) {
+    console.warn("Could not load market heatmap:", err);
+  }
+
+  toggles?.addEventListener("click", (e) => {
+    const btn = e.target.closest(".map-toggle-btn");
+    if (!btn) return;
+    $$(".map-toggle-btn", toggles).forEach((b) => b.classList.remove("active"));
+    btn.classList.add("active");
+    activeHeatmapMetric = btn.dataset.mode;
+    renderHeatmapNodes();
+  });
+
+  $("#hudNodeSelectBtn")?.addEventListener("click", () => {
+    const activeNodeId = hud?.dataset.activeNodeId;
+    const node = heatmapNodesData.find((n) => n.id === activeNodeId);
+    if (!node) return;
+    loadNodeIntoValuationEngine(node);
+  });
+}
+
+function renderHeatmapNodes() {
+  const container = $("#mapNodesContainer");
+  if (!container || !heatmapNodesData.length) return;
+
+  container.innerHTML = heatmapNodesData.map((node) => {
+    const cx = (node.x / 100) * 1000;
+    const cy = (node.y / 100) * 680;
+    const isRate = activeHeatmapMetric === "rate";
+
+    let color = "#d4af37";
+    let glowId = "nodeGlowHigh";
+    if (isRate) {
+      if (node.rate > 75000) color = "#d4af37";
+      else if (node.rate >= 45000) color = "#5c7cfa";
+      else color = "#34d399";
+    } else {
+      glowId = "nodeGlowYield";
+      if (node.yield >= 3.5) color = "#34d399";
+      else if (node.yield >= 2.5) color = "#5c7cfa";
+      else color = "#d4af37";
+    }
+
+    const valDisplay = isRate ? `₹${Math.round(node.rate / 1000)}k/psf` : `${node.yield}% yield`;
+
+    return `
+      <g class="map-node-group" data-id="${escapeAttr(node.id)}" tabindex="0" role="button" aria-label="${escapeAttr(node.name)}: ${valDisplay}">
+        <circle cx="${cx}" cy="${cy}" r="32" fill="url(#${glowId})" opacity="0.65" />
+        <circle cx="${cx}" cy="${cy}" r="9" fill="${color}" stroke="#ffffff" stroke-width="2" />
+        <circle cx="${cx}" cy="${cy}" r="16" fill="none" stroke="${color}" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.8" />
+        <rect x="${cx - 55}" y="${cy + 14}" width="110" height="20" rx="4" fill="rgba(9,13,20,0.85)" stroke="${color}" stroke-width="0.8"/>
+        <text x="${cx}" y="${cy + 28}" text-anchor="middle" fill="#ffffff" font-size="9.5" font-weight="600" letter-spacing="0.2">${escapeHtml(node.name.split(" ")[0])} · ${valDisplay}</text>
+      </g>
+    `;
+  }).join("");
+
+  $$(".map-node-group", container).forEach((g) => {
+    const nodeId = g.dataset.id;
+    const node = heatmapNodesData.find((n) => n.id === nodeId);
+    if (!node) return;
+
+    g.addEventListener("mouseenter", () => showNodeHud(node));
+    g.addEventListener("focus", () => showNodeHud(node));
+    g.addEventListener("click", () => showNodeHud(node));
+  });
+}
+
+function showNodeHud(node) {
+  const hud = $("#mapNodeHud");
+  if (!hud) return;
+  hud.dataset.activeNodeId = node.id;
+  $("#hudNodeTag").textContent = node.tag || "Prime Micro-Market";
+  $("#hudNodeBhk").textContent = `${node.bhk} BHK · ${Number(node.area_sqft).toLocaleString("en-IN")} sq.ft.`;
+  $("#hudNodeName").textContent = node.name;
+  $("#hudNodeRate").textContent = `₹${Number(node.rate).toLocaleString("en-IN")} / sq.ft.`;
+  $("#hudNodeYield").textContent = `${node.yield}% p.a.`;
+  hud.hidden = false;
+}
+
+function loadNodeIntoValuationEngine(node) {
+  const citySel = $("#city");
+  if (citySel) {
+    citySel.value = "Mumbai (MMR)";
+    populateLocalities();
+  }
+  const locSel = $("#locality");
+  if (locSel) {
+    const opt = Array.from(locSel.options).find((o) =>
+      o.value.toLowerCase().includes(node.name.toLowerCase().split(" ")[0]) ||
+      node.name.toLowerCase().includes(o.value.toLowerCase().split(" ")[0])
+    );
+    if (opt) locSel.value = opt.value;
+    updateStateHint();
+  }
+
+  const bhkBtn = $(`#bhkGroup button[data-value="${node.bhk}"]`);
+  if (bhkBtn) bhkBtn.click();
+
+  const areaInput = $("#area");
+  if (areaInput) {
+    areaInput.value = node.area_sqft;
+    const areaRange = $("#areaRange");
+    if (areaRange) areaRange.value = node.area_sqft;
+    paintFills();
+  }
+
+  $("#estimate")?.scrollIntoView({ behavior: "smooth" });
+
+  setTimeout(() => {
+    $("#estimateForm")?.dispatchEvent(new Event("submit", { cancelable: true }));
+  }, 250);
+}
+
+// ---------------------------------------------------------------------------
+// Investor Pro-Forma & Rental Yield
+// ---------------------------------------------------------------------------
+
+function renderProforma(est) {
+  const panel = $("#proformaPanel");
+  if (!panel) return;
+
+  const f = est.finance || {};
+  const propVal = est.predicted_price || 0;
+  if (!propVal) return;
+
+  let grossYield = 0.030;
+  if (est.city?.includes("Mumbai")) grossYield = 0.026;
+  else if (est.city?.includes("Bengaluru")) grossYield = 0.038;
+  else if (est.city?.includes("Hyderabad")) grossYield = 0.035;
+  else if (est.city?.includes("Pune")) grossYield = 0.036;
+
+  const annualGrossRent = Math.round(propVal * grossYield);
+  const monthlyRent = Math.round(annualGrossRent / 12);
+  const vacancyReserve = monthlyRent;
+  const maintTax = Math.round(propVal * 0.0075);
+  const netAnnualCashflow = Math.max(0, annualGrossRent - vacancyReserve - maintTax);
+  const realNetYield = ((netAnnualCashflow / propVal) * 100).toFixed(2);
+
+  const emi = f.monthly_emi || 1;
+  const emiCoverage = Math.min(100, (monthlyRent / emi) * 100).toFixed(1);
+  const upfront = f.upfront_cash || Math.round(propVal * 0.31);
+  const paybackYears = netAnnualCashflow > 0 ? (upfront / netAnnualCashflow).toFixed(1) : "–";
+
+  $("#proformaYieldBadge").textContent = `Gross Yield: ${(grossYield * 100).toFixed(1)}%`;
+  $("#proMonthlyRent").textContent = fmtCompact(monthlyRent);
+  $("#proAnnualRent").textContent = fmtCompact(annualGrossRent);
+  $("#proNetYield").textContent = `${realNetYield}%`;
+  $("#proEmiOffset").textContent = `${emiCoverage}%`;
+  $("#proPayback").textContent = `${paybackYears} Yrs`;
+
+  $("#flowGrossRent").textContent = fmtCompact(annualGrossRent);
+  $("#flowVacancy").textContent = fmtCompact(vacancyReserve);
+  $("#flowMaint").textContent = fmtCompact(maintTax);
+  $("#flowNetCash").textContent = fmtCompact(netAnnualCashflow);
+
+  const battleBtn = $("#addCurrentToBattleBtn");
+  if (battleBtn) {
+    battleBtn.onclick = () => {
+      loadActiveIntoBattleSlot1();
+      $("#propBattle")?.scrollIntoView({ behavior: "smooth" });
+    };
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Mega-Infrastructure Impact & Catalysts
+// ---------------------------------------------------------------------------
+
+async function renderInfraProjects(est) {
+  const grid = $("#infraProjectsGrid");
+  if (!grid) return;
+
+  try {
+    const loc = est.locality || "";
+    const city = est.city || "Mumbai (MMR)";
+    const res = await fetch(`/api/infrastructure-projects?locality=${encodeURIComponent(loc)}&city=${encodeURIComponent(city)}`);
+    if (!res.ok) throw new Error(await errorText(res));
+    const data = await res.json();
+
+    $("#infraBaseCagr").textContent = `${data.base_cagr_pct}%`;
+    $("#infraCatalystCagr").textContent = `${data.catalyst_cagr_pct}%`;
+    $("#infra3YrMult").textContent = `${data.projected_3yr_multiplier}×`;
+    $("#infra5YrMult").textContent = `${data.projected_5yr_multiplier}×`;
+
+    const projects = data.active_projects || [];
+    grid.innerHTML = projects.map((proj) => `
+      <div class="infra-project-card">
+        <div class="infra-proj-head">
+          <span class="infra-proj-agency">${escapeHtml(proj.agency)}</span>
+          <span class="infra-proj-year">Completion: ${proj.completion_year}</span>
+        </div>
+        <h4 class="infra-proj-title">${escapeHtml(proj.name)}</h4>
+        <p class="infra-proj-summary">${escapeHtml(proj.summary)}</p>
+        <div class="infra-proj-foot">
+          <span class="infra-boost-pill">+${proj.premium_appreciation_pct}% / yr Catalyst Boost</span>
+        </div>
+      </div>
+    `).join("");
+  } catch (err) {
+    console.warn("Could not load infrastructure projects:", err);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Side-by-Side Property Battle
+// ---------------------------------------------------------------------------
+
+let battleSlots = [
+  { name: "Worli Sea Face 3 BHK", locality: "Worli Sea Face", city: "Mumbai (MMR)", bhk: 3, area_sqft: 2200, age_years: 2, property_value: 184200000, rental_yield_pct: 2.4 },
+  { name: "Bandra West 3 BHK", locality: "Bandra West", city: "Mumbai (MMR)", bhk: 3, area_sqft: 1850, age_years: 3, property_value: 145200000, rental_yield_pct: 2.7 },
+  { name: "Powai Hiranandani 2 BHK", locality: "Powai Hiranandani", city: "Mumbai (MMR)", bhk: 2, area_sqft: 1100, age_years: 4, property_value: 35800000, rental_yield_pct: 3.9 },
+];
+
+function initPropertyBattle() {
+  $("#loadPresetBattleBtn")?.addEventListener("click", () => {
+    battleSlots = [
+      { name: "Worli Sea Face 3 BHK", locality: "Worli Sea Face", city: "Mumbai (MMR)", bhk: 3, area_sqft: 2200, age_years: 2, property_value: 184200000, rental_yield_pct: 2.4 },
+      { name: "Bandra West 3 BHK", locality: "Bandra West", city: "Mumbai (MMR)", bhk: 3, area_sqft: 1850, age_years: 3, property_value: 145200000, rental_yield_pct: 2.7 },
+      { name: "Powai Hiranandani 2 BHK", locality: "Powai Hiranandani", city: "Mumbai (MMR)", bhk: 2, area_sqft: 1100, age_years: 4, property_value: 35800000, rental_yield_pct: 3.9 },
+    ];
+    runPropertyBattle();
+  });
+
+  $("#loadActiveIntoSlot1Btn")?.addEventListener("click", () => {
+    loadActiveIntoBattleSlot1();
+  });
+
+  runPropertyBattle();
+}
+
+function loadActiveIntoBattleSlot1() {
+  if (!state.est) return;
+  const e = state.est;
+  battleSlots[0] = {
+    name: `${e.locality} ${e.bhk} BHK (Active Valuation)`,
+    locality: e.locality,
+    city: e.city,
+    bhk: e.bhk,
+    area_sqft: e.area_sqft,
+    age_years: e.age_years || 2,
+    property_value: e.predicted_price,
+    rental_yield_pct: e.city?.includes("Mumbai") ? 2.6 : 3.5,
+  };
+  runPropertyBattle();
+}
+
+async function runPropertyBattle() {
+  const grid = $("#battleCardsGrid");
+  if (!grid) return;
+
+  try {
+    const res = await fetch("/api/finance/compare-properties", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ properties: battleSlots }),
+    });
+    if (!res.ok) throw new Error(await errorText(res));
+    const data = await res.json();
+
+    const winners = data.winner_summary || {};
+    $("#winCash").textContent = winners.lowest_upfront_cash || "–";
+    $("#winYield").textContent = winners.highest_rental_yield || "–";
+    $("#winEmi").textContent = winners.lowest_monthly_emi || "–";
+    $("#winPsf").textContent = winners.best_value_rate_per_sqft || "–";
+
+    grid.innerHTML = (data.properties || []).map((p, idx) => `
+      <div class="battle-slot-card">
+        <div class="battle-card-header">
+          <div>
+            <span class="slot-tag">SLOT 0${idx + 1}</span>
+            <h4 class="slot-prop-name">${escapeHtml(p.name)}</h4>
+          </div>
+          <span class="tag">${p.bhk} BHK · ${Math.round(p.area_sqft)} sq.ft.</span>
+        </div>
+
+        <div class="slot-prop-price">${fmtCompact(p.property_value)}</div>
+        <small class="muted" style="margin-top:-10px;">${fmtINR(p.rate_per_sqft)} / sq.ft.</small>
+
+        <table class="slot-metrics-table">
+          <tr><td>Total Upfront Cash:</td><td><strong>${fmtCompact(p.upfront_cash_inr)}</strong></td></tr>
+          <tr><td>Down Payment (20-25%):</td><td>${fmtCompact(p.down_payment_inr)}</td></tr>
+          <tr><td>Stamp Duty & Reg.:</td><td>${fmtCompact(p.stamp_duty_inr)}</td></tr>
+          <tr><td>Monthly EMI (20 Yrs):</td><td><strong>${fmtINR(p.monthly_emi_inr)} / mo</strong></td></tr>
+          <tr><td>Gross Rental Yield:</td><td><strong class="highlight-emerald">${p.gross_rental_yield_pct}%</strong></td></tr>
+          <tr><td>Tenant EMI Coverage:</td><td>${p.emi_offset_pct}%</td></tr>
+        </table>
+
+        <div class="slot-verdict-banner">
+          <strong class="highlight-gold" style="display:block; margin-bottom:2px;">${escapeHtml(p.verdict_badge)}</strong>
+          <span>${escapeHtml(p.verdict)}</span>
+        </div>
+      </div>
+    `).join("");
+  } catch (err) {
+    console.warn("Could not run property battle:", err);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Interactive Offer Strategy & Bargaining Simulator
+// ---------------------------------------------------------------------------
+
+let activeOfferEst = null;
+let offerDebounceTimer = null;
+
+function initOfferStrategy() {
+  const slider = $("#offerSlider");
+  if (!slider) return;
+
+  slider.addEventListener("input", () => {
+    if (offerDebounceTimer) clearTimeout(offerDebounceTimer);
+    offerDebounceTimer = setTimeout(calcOfferStrategy, 80);
+  });
+
+  $("#copyNegotiationBriefBtn")?.addEventListener("click", () => {
+    const bullets = Array.from($$("#briefBulletsList li")).map((li) => `• ${li.textContent}`).join("\n");
+    if (!bullets) return;
+    navigator.clipboard.writeText(bullets).then(() => {
+      const toast = $("#copyToast");
+      if (toast) {
+        toast.hidden = false;
+        setTimeout(() => { toast.hidden = true; }, 3000);
+      }
+    }).catch(() => {});
+  });
+
+  calcOfferStrategy();
+}
+
+function updateOfferStrategy(est) {
+  activeOfferEst = est;
+  calcOfferStrategy();
+}
+
+async function calcOfferStrategy() {
+  const slider = $("#offerSlider");
+  if (!slider) return;
+
+  const est = activeOfferEst || state.est || {
+    predicted_price: 28500000,
+    price_range: { low: 26200000, high: 30800000 },
+    city: "Mumbai (MMR)",
+    locality: "Worli Sea Face",
+  };
+
+  const pVal = est.predicted_price;
+  const pLow = est.price_range?.low || Math.round(pVal * 0.92);
+  const pHigh = est.price_range?.high || Math.round(pVal * 1.08);
+
+  $("#offerP10Label").textContent = fmtCompact(pLow);
+  $("#offerP50Label").textContent = fmtCompact(pVal);
+  $("#offerP90Label").textContent = fmtCompact(pHigh);
+
+  const pct = Number(slider.value) / 100;
+  const targetOffer = Math.round(pLow + pct * (pHigh - pLow));
+
+  try {
+    const res = await fetch("/api/finance/offer-strategy", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        property_value: pVal,
+        price_low: pLow,
+        price_high: pHigh,
+        target_offer: targetOffer,
+        city: est.city,
+        locality: est.locality,
+      }),
+    });
+    if (!res.ok) throw new Error(await errorText(res));
+    const data = await res.json();
+
+    $("#offerTargetDisplay").textContent = fmtCompact(data.target_offer);
+    const diffTag = $("#offerDiffTag");
+    if (diffTag) {
+      if (data.discount_inr > 0) {
+        diffTag.textContent = `₹${fmtCompact(data.discount_inr)} below median (${data.discount_pct}% discount)`;
+        diffTag.style.color = "#34d399";
+      } else if (data.discount_inr < 0) {
+        diffTag.textContent = `₹${fmtCompact(Math.abs(data.discount_inr))} trophy premium (+${Math.abs(data.discount_pct)}%)`;
+        diffTag.style.color = "#d4af37";
+      } else {
+        diffTag.textContent = "Benchmark Valuation Equilibrium";
+        diffTag.style.color = "var(--text-dim)";
+      }
+    }
+
+    $("#offerTierPill").textContent = data.badge;
+    $("#offerPercentileText").textContent = `${Math.round(data.percentile)}th Percentile`;
+    $("#offerTierDesc").textContent = data.description;
+    $("#offerDiscountVal").textContent = fmtCompact(data.discount_inr);
+    $("#offerStampSaved").textContent = fmtCompact(data.stamp_saved_inr);
+    $("#offerEmiTrimmed").textContent = `${fmtINR(data.monthly_emi_saved_inr)} / mo`;
+
+    const bulletsList = $("#briefBulletsList");
+    if (bulletsList && data.negotiation_points) {
+      bulletsList.innerHTML = data.negotiation_points.map((pt) => `<li>${escapeHtml(pt)}</li>`).join("");
+    }
+  } catch (err) {
+    console.warn("Could not calculate offer strategy:", err);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Loan Prepayment & "Interest Saver" Calculator
+// ---------------------------------------------------------------------------
+
+let prepayDebounceTimer = null;
+
+function initLoanPrepayment() {
+  const mSlider = $("#monthlyPrepaySlider");
+  const aSlider = $("#annualLumpsumSlider");
+  if (!mSlider || !aSlider) return;
+
+  const onPrepayInput = () => {
+    $("#monthlyPrepayOut").textContent = `+₹${Number(mSlider.value).toLocaleString("en-IN")} / mo`;
+    $("#annualLumpsumOut").textContent = `+₹${fmtCompact(Number(aSlider.value))} / yr`;
+    if (prepayDebounceTimer) clearTimeout(prepayDebounceTimer);
+    prepayDebounceTimer = setTimeout(calcLoanPrepayment, 80);
+  };
+
+  mSlider.addEventListener("input", onPrepayInput);
+  aSlider.addEventListener("input", onPrepayInput);
+
+  calcLoanPrepayment();
+}
+
+function updateLoanPrepayment(est) {
+  calcLoanPrepayment();
+}
+
+async function calcLoanPrepayment() {
+  const mSlider = $("#monthlyPrepaySlider");
+  const aSlider = $("#annualLumpsumSlider");
+  if (!mSlider || !aSlider) return;
+
+  const est = state.est;
+  const loanAmount = est?.finance?.loan_amount || 20000000;
+  const ratePct = Number($("#rate")?.value || 8.5);
+  const tenureYears = Number($("#tenure")?.value || 20);
+
+  $("#prepayBaseLoan").textContent = fmtCompact(loanAmount);
+  $("#prepayBaseRate").textContent = `${ratePct.toFixed(2)}%`;
+  $("#prepayBaseTenure").textContent = `${tenureYears} Yrs`;
+
+  const monthlyExtra = Number(mSlider.value);
+  const annualExtra = Number(aSlider.value);
+
+  try {
+    const res = await fetch("/api/finance/loan-prepayment", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        loan_amount: loanAmount,
+        annual_rate_pct: ratePct,
+        tenure_years: tenureYears,
+        monthly_prepayment: monthlyExtra,
+        annual_lumpsum: annualExtra,
+      }),
+    });
+    if (!res.ok) throw new Error(await errorText(res));
+    const data = await res.json();
+
+    $("#prepayYearsSaved").textContent = `${data.years_saved} Yrs`;
+    $("#prepayOriginalTenure").textContent = `${data.base_tenure_years}`;
+    $("#prepayNewTenure").textContent = `${data.accelerated_tenure_years} Yrs`;
+    $("#prepayInterestSaved").textContent = fmtCompact(data.interest_saved);
+    $("#prepayInterestSavedPct").textContent = `${data.interest_saved_pct}%`;
+
+    $("#barBaseTotal").textContent = fmtCompact(data.base_total_repayment);
+    $("#barAccelTotal").textContent = fmtCompact(data.accelerated_total_repayment);
+    const fillPct = Math.min(100, Math.round((data.accelerated_total_repayment / data.base_total_repayment) * 100));
+    const fillEl = $("#barAccelFill");
+    if (fillEl) fillEl.style.width = `${fillPct}%`;
+  } catch (err) {
+    console.warn("Could not calculate loan prepayment:", err);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// 20-Year "Buy vs. Rent" Wealth Compounding Comparison
+// ---------------------------------------------------------------------------
+
+let bvrDebounceTimer = null;
+
+function initBuyVsRent() {
+  $("#bvrEquityCagr")?.addEventListener("change", () => {
+    if (bvrDebounceTimer) clearTimeout(bvrDebounceTimer);
+    bvrDebounceTimer = setTimeout(calcBuyVsRent, 80);
+  });
+  $("#bvrPropCagr")?.addEventListener("change", () => {
+    if (bvrDebounceTimer) clearTimeout(bvrDebounceTimer);
+    bvrDebounceTimer = setTimeout(calcBuyVsRent, 80);
+  });
+
+  calcBuyVsRent();
+}
+
+function updateBuyVsRent(est) {
+  calcBuyVsRent();
+}
+
+async function calcBuyVsRent() {
+  const grid = $("#bvrMilestonesGrid");
+  if (!grid) return;
+
+  const est = state.est || {
+    predicted_price: 20000000,
+    city: "Mumbai (MMR)",
+    state: "Maharashtra",
+    down_payment_pct: 20,
+    annual_rate_pct: 8.5,
+    tenure_years: 20,
+    construction_status: "Ready to Move",
+  };
+
+  const equityCagr = Number($("#bvrEquityCagr")?.value || 12);
+  const propCagr = Number($("#bvrPropCagr")?.value || 6.5);
+
+  try {
+    const res = await fetch("/api/finance/buy-vs-rent", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        property_value: est.predicted_price,
+        city: est.city,
+        state: est.state,
+        down_payment_pct: est.down_payment_pct || 20,
+        annual_rate_pct: est.annual_rate_pct || 8.5,
+        tenure_years: est.tenure_years || 20,
+        is_under_construction: est.construction_status !== "Ready to Move",
+        property_appreciation_pct: propCagr,
+        equity_cagr_pct: equityCagr,
+        simulation_years: 20,
+      }),
+    });
+    if (!res.ok) throw new Error(await errorText(res));
+    const data = await res.json();
+
+    const crossPill = $("#bvrCrossoverPill");
+    if (crossPill) {
+      const yr = data.breakeven_year;
+      if (yr) {
+        crossPill.innerHTML = `
+          <svg class="ico xs" aria-hidden="true"><use href="#i-sparkle"/></svg>
+          <span>CROSSOVER YEAR: <strong>YEAR ${yr}</strong> (Buying Surpasses Renting)</span>
+        `;
+      } else {
+        crossPill.innerHTML = `
+          <svg class="ico xs" aria-hidden="true"><use href="#i-sparkle"/></svg>
+          <span>CROSSOVER: <strong>HIGH EQUITY CAGR</strong> (Renting + Compounding Holds Edge)</span>
+        `;
+      }
+    }
+
+    const trajectory = data.trajectory || [];
+    const milestoneYears = [5, 10, 15, 20];
+    const milestones = milestoneYears.map((yr) => trajectory.find((t) => t.year === yr) || trajectory[trajectory.length - 1]);
+
+    grid.innerHTML = milestones.map((m) => {
+      const buyerAhead = m.buyer_ahead;
+      const spread = Math.abs(m.wealth_delta);
+      return `
+        <div class="bvr-milestone-card">
+          <div class="bvr-m-head">
+            <span class="bvr-m-year">Year ${m.year}</span>
+            <span class="bvr-m-winner-tag ${buyerAhead ? "buyer" : "renter"}">
+              ${buyerAhead ? "Homeowner Leads" : "Renting Ahead"}
+            </span>
+          </div>
+
+          <div class="bvr-stat-row">
+            <span class="lbl">Home Equity:</span>
+            <strong class="${buyerAhead ? "highlight-emerald" : ""}">${fmtCompact(m.buyer_equity)}</strong>
+          </div>
+          <div class="bvr-stat-row">
+            <span class="lbl">Rent + MF Portfolio:</span>
+            <strong class="${!buyerAhead ? "highlight-cyan" : ""}">${fmtCompact(m.renter_portfolio)}</strong>
+          </div>
+          <div class="bvr-stat-row" style="padding-top:6px; border-top:1px solid var(--line);">
+            <span class="lbl">Wealth Spread:</span>
+            <strong>${fmtCompact(spread)} (${buyerAhead ? "+Buyer" : "+Renter"})</strong>
+          </div>
+        </div>
+      `;
+    }).join("");
+  } catch (err) {
+    console.warn("Could not calculate Buy vs Rent:", err);
+  }
 }
 
 // Exported for testing and console inspection

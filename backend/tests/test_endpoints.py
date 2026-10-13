@@ -216,3 +216,96 @@ def test_estimate_includes_macro_news():
     assert "macro_news" in data
     assert len(data["macro_news"]) >= 5
     assert all("primary_source" in ev for ev in data["macro_news"])
+
+
+def test_offer_strategy_endpoint():
+    payload = {
+        "property_value": 15_000_000,
+        "price_low": 13_500_000,
+        "price_high": 16_500_000,
+        "target_offer": 14_000_000,
+        "city": "Mumbai (MMR)",
+        "locality": "Worli Sea Face",
+    }
+    r = client.post("/api/finance/offer-strategy", json=payload)
+    assert r.status_code == 200
+    data = r.json()
+    assert data["tier"] in ("AGGRESSIVE_BARGAIN", "FAIR_BENCHMARK", "PREMIUM_SELLER")
+    assert len(data["negotiation_points"]) == 3
+    assert data["discount_inr"] == 1_000_000
+
+
+def test_loan_prepayment_endpoint():
+    payload = {
+        "loan_amount": 10_000_000,
+        "annual_rate_pct": 8.5,
+        "tenure_years": 20,
+        "monthly_prepayment": 15_000,
+        "annual_lumpsum": 100_000,
+    }
+    r = client.post("/api/finance/loan-prepayment", json=payload)
+    assert r.status_code == 200
+    data = r.json()
+    assert data["years_saved"] > 3.0
+    assert data["interest_saved"] > 0
+
+
+def test_buy_vs_rent_endpoint():
+    payload = {
+        "property_value": 15_000_000,
+        "city": "Mumbai (MMR)",
+        "state": "Maharashtra",
+        "down_payment_pct": 20.0,
+        "annual_rate_pct": 8.5,
+        "tenure_years": 20,
+    }
+    r = client.post("/api/finance/buy-vs-rent", json=payload)
+    assert r.status_code == 200
+    data = r.json()
+    assert "gross_rental_yield_pct" in data
+    assert len(data["trajectory"]) == 20
+
+
+def test_infrastructure_projects_endpoint():
+    r = client.get("/api/infrastructure-projects?locality=Worli+Sea+Face")
+    assert r.status_code == 200
+    data = r.json()
+    assert len(data["active_projects"]) >= 1
+    assert data["catalyst_cagr_pct"] > 0
+
+
+def test_market_heatmap_endpoint():
+    r = client.get("/api/market-heatmap")
+    assert r.status_code == 200
+    data = r.json()
+    assert len(data) >= 5
+    assert all("rate" in n and "yield" in n for n in data)
+
+
+def test_compare_properties_endpoint():
+    payload = {
+        "properties": [
+            {
+                "name": "Worli 3 BHK",
+                "property_value": 35_000_000,
+                "area_sqft": 2200,
+                "bhk": 3,
+                "city": "Mumbai (MMR)",
+                "locality": "Worli Sea Face",
+            },
+            {
+                "name": "Powai 2 BHK",
+                "property_value": 18_000_000,
+                "area_sqft": 1100,
+                "bhk": 2,
+                "city": "Mumbai (MMR)",
+                "locality": "Powai Hiranandani",
+            },
+        ]
+    }
+    r = client.post("/api/finance/compare-properties", json=payload)
+    assert r.status_code == 200
+    data = r.json()
+    assert len(data["properties"]) == 2
+    assert "winner_summary" in data
+

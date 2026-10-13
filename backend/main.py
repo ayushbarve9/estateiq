@@ -38,17 +38,31 @@ from backend.features import (
     PROPERTY_TYPES,
     STATUS_OPTIONS,
 )
-from backend.finance import compute_emi, cost_breakdown, effective_loan
+from backend.finance import (
+    compare_properties,
+    compute_emi,
+    compute_loan_prepayment,
+    compute_offer_strategy,
+    compute_rental_and_wealth,
+    cost_breakdown,
+    effective_loan,
+    get_infrastructure_impact,
+    get_market_heatmap,
+)
 from backend.markets import load_markets
 from backend.model import ModelUnavailable, bundle_status, get_bundle, predict
 from backend.schemas import (
+    BuyVsRentRequest,
     ChatRequest,
     Comparable,
     ContactRequest,
     ContactResponse,
     EstimateRequest,
     EstimateResponse,
+    LoanPrepaymentRequest,
+    OfferStrategyRequest,
     PriceRange,
+    PropertyCompareRequest,
     SensitivityRequest,
 )
 from backend.db import (
@@ -418,6 +432,69 @@ def sensitivity(req: SensitivityRequest) -> dict:
         for r in req.rates_pct
     ]
     return {"loan_amount": loan, "ltv_cap_applied": cap_applied, "grid": grid}
+
+
+@app.post("/api/finance/offer-strategy")
+def offer_strategy_endpoint(req: OfferStrategyRequest) -> dict:
+    """Calculates offer bargaining band, pricing tier, and 3 actionable leverage points."""
+    return compute_offer_strategy(
+        property_value=req.property_value,
+        price_low=req.price_low,
+        price_high=req.price_high,
+        target_offer=req.target_offer,
+        city=req.city,
+        locality=req.locality,
+    )
+
+
+@app.post("/api/finance/loan-prepayment")
+def loan_prepayment_endpoint(req: LoanPrepaymentRequest) -> dict:
+    """Simulates monthly and annual loan prepayment acceleration and interest savings."""
+    return compute_loan_prepayment(
+        loan_amount=req.loan_amount,
+        annual_rate_pct=req.annual_rate_pct,
+        tenure_years=req.tenure_years,
+        monthly_prepayment=req.monthly_prepayment,
+        annual_lumpsum=req.annual_lumpsum,
+    )
+
+
+@app.post("/api/finance/buy-vs-rent")
+def buy_vs_rent_endpoint(req: BuyVsRentRequest) -> dict:
+    """Calculates 20-year Buy vs. Rent wealth compounding trajectories and breakeven year."""
+    return compute_rental_and_wealth(
+        property_value=req.property_value,
+        city=req.city,
+        state=req.state,
+        down_payment_pct=req.down_payment_pct,
+        annual_rate_pct=req.annual_rate_pct,
+        tenure_years=req.tenure_years,
+        is_under_construction=req.is_under_construction,
+        rental_yield_pct=req.rental_yield_pct,
+        property_appreciation_pct=req.property_appreciation_pct,
+        rent_escalation_pct=req.rent_escalation_pct,
+        equity_cagr_pct=req.equity_cagr_pct,
+        simulation_years=req.simulation_years,
+    )
+
+
+@app.get("/api/infrastructure-projects")
+def infrastructure_projects_endpoint(locality: str | None = None, city: str | None = None) -> dict:
+    """Returns active connectivity catalysts and appreciation multipliers for a micro-market."""
+    return get_infrastructure_impact(locality=locality, city=city)
+
+
+@app.get("/api/market-heatmap")
+def market_heatmap_endpoint() -> list[dict]:
+    """Returns micro-market geographic nodes, median rates/sq.ft., and rental yields."""
+    return get_market_heatmap()
+
+
+@app.post("/api/finance/compare-properties")
+def compare_properties_endpoint(req: PropertyCompareRequest) -> dict:
+    """Institutional side-by-side comparison of 2 to 4 properties with AI verdict."""
+    return compare_properties([p.model_dump() for p in req.properties])
+
 
 
 @app.get("/api/valuation/{ref_id}")

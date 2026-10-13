@@ -113,3 +113,105 @@ def test_cost_breakdown_rejects_non_positive_value():
     with pytest.raises(ValueError):
         cost_breakdown(state=None, property_value=-1, down_payment_pct=20,
                        annual_rate_pct=8.5, tenure_years=20, is_under_construction=False)
+
+
+def test_offer_strategy_brackets_and_leverage():
+    from backend.finance import compute_offer_strategy
+
+    res = compute_offer_strategy(
+        property_value=10_000_000,
+        price_low=8_500_000,
+        price_high=11_500_000,
+        target_offer=8_800_000,
+        city="Mumbai (MMR)",
+        locality="Worli Sea Face",
+    )
+    assert res["tier"] == "AGGRESSIVE_BARGAIN"
+    assert res["discount_inr"] == 1_200_000
+    assert res["discount_pct"] == 12.0
+    assert len(res["negotiation_points"]) == 3
+    assert res["stamp_saved_inr"] > 0
+    assert res["monthly_emi_saved_inr"] > 0
+
+
+def test_loan_prepayment_reduces_tenure_and_interest():
+    from backend.finance import compute_loan_prepayment
+
+    # Loan of 50 Lakhs at 8.5% over 20 years, with 10k monthly prepayment
+    res = compute_loan_prepayment(
+        loan_amount=5_000_000,
+        annual_rate_pct=8.5,
+        tenure_years=20,
+        monthly_prepayment=10_000,
+        annual_lumpsum=50_000,
+    )
+    assert res["years_saved"] > 3.0
+    assert res["interest_saved"] > 500_000
+    assert res["accelerated_tenure_years"] < 20.0
+    assert len(res["checkpoints"]) > 0
+
+
+def test_rental_and_wealth_compounding():
+    from backend.finance import compute_rental_and_wealth
+
+    res = compute_rental_and_wealth(
+        property_value=10_000_000,
+        city="Mumbai (MMR)",
+        state="Maharashtra",
+        down_payment_pct=20.0,
+        annual_rate_pct=8.5,
+        tenure_years=20,
+    )
+    assert res["gross_rental_yield_pct"] > 0
+    assert res["initial_monthly_rent"] > 0
+    assert len(res["trajectory"]) == 20
+    assert "breakeven_year" in res
+    assert "pro_forma" in res
+    assert res["pro_forma"]["emi_offset_pct"] >= 0
+    assert res["pro_forma"]["vacancy_reserve_annual"] > 0
+
+
+def test_infrastructure_impact_and_heatmap():
+    from backend.finance import get_infrastructure_impact, get_market_heatmap
+
+    infra = get_infrastructure_impact("Worli Sea Face", "Mumbai (MMR)")
+    assert infra["catalyst_cagr_pct"] >= infra["base_cagr_pct"]
+    assert len(infra["active_projects"]) >= 1
+
+    nodes = get_market_heatmap()
+    assert len(nodes) >= 5
+    assert any(n["id"] == "worli" for n in nodes)
+
+
+def test_property_comparison():
+    from backend.finance import compare_properties
+
+    props = [
+        {
+            "name": "Worli Sea Face 3 BHK",
+            "city": "Mumbai (MMR)",
+            "locality": "Worli Sea Face",
+            "property_value": 35_000_000,
+            "area_sqft": 2200,
+            "bhk": 3,
+            "age_years": 2,
+        },
+        {
+            "name": "Powai High-Yield 2 BHK",
+            "city": "Mumbai (MMR)",
+            "locality": "Powai Hiranandani",
+            "property_value": 18_000_000,
+            "area_sqft": 1100,
+            "bhk": 2,
+            "age_years": 5,
+            "rental_yield_pct": 3.9,
+        },
+    ]
+
+    res = compare_properties(props)
+    assert len(res["properties"]) == 2
+    assert "winner_summary" in res
+    assert res["winner_summary"]["highest_rental_yield"] == "Powai High-Yield 2 BHK"
+    assert res["properties"][0]["verdict_badge"] != ""
+    assert res["properties"][1]["emi_offset_pct"] > 0
+
