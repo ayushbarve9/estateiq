@@ -1,0 +1,760 @@
+{
+  "_provenance": "Market reference used to generate the training dataset and to ground city/locality benchmarks. Cities marked 'legacy_dataset_derived' take base_psf and locality premiums from the legacy listings.csv in the prior project; that file's provenance could not be verified. Cities marked 'indicative_estimate' are planning estimates, NOT transaction data. Replace with registry or transaction data via: python -m backend.train --csv <your_transactions.csv>.",
+  "cities": [
+    {
+      "name": "Bengaluru",
+      "state": "Karnataka",
+      "base_psf": 11640,
+      "source": "legacy_dataset_derived",
+      "localities": [
+        {
+          "name": "Bellandur / ORR",
+          "lat": 12.9332,
+          "lon": 77.68,
+          "premium": 0.959
+        },
+        {
+          "name": "Electronic City",
+          "lat": 12.8395,
+          "lon": 77.6772,
+          "premium": 0.646
+        },
+        {
+          "name": "HSR Layout",
+          "lat": 12.9099,
+          "lon": 77.6435,
+          "premium": 1.103
+        },
+        {
+          "name": "Hebbal",
+          "lat": 13.0363,
+          "lon": 77.5974,
+          "premium": 1.051
+        },
+        {
+          "name": "Indiranagar",
+          "lat": 12.9789,
+          "lon": 77.6414,
+          "premium": 1.535
+        },
+        {
+          "name": "Koramangala",
+          "lat": 12.9389,
+          "lon": 77.6249,
+          "premium": 1.401
+        },
+        {
+          "name": "Sarjapur Road",
+          "lat": 12.86,
+          "lon": 77.739,
+          "premium": 0.803
+        },
+        {
+          "name": "Whitefield",
+          "lat": 12.9679,
+          "lon": 77.7521,
+          "premium": 0.816
+        }
+      ]
+    },
+    {
+      "name": "Chennai",
+      "state": "Tamil Nadu",
+      "base_psf": 10859,
+      "source": "legacy_dataset_derived",
+      "localities": [
+        {
+          "name": "Adyar",
+          "lat": 13.0053,
+          "lon": 80.2601,
+          "premium": 1.656
+        },
+        {
+          "name": "Anna Nagar",
+          "lat": 13.0866,
+          "lon": 80.2102,
+          "premium": 1.393
+        },
+        {
+          "name": "OMR - IT Corridor",
+          "lat": 12.9327,
+          "lon": 80.2305,
+          "premium": 0.751
+        },
+        {
+          "name": "Porur",
+          "lat": 13.0345,
+          "lon": 80.1559,
+          "premium": 0.69
+        },
+        {
+          "name": "Velachery",
+          "lat": 12.98,
+          "lon": 80.2182,
+          "premium": 0.957
+        }
+      ]
+    },
+    {
+      "name": "Delhi NCR",
+      "state": "Delhi",
+      "base_psf": 13652,
+      "source": "legacy_dataset_derived",
+      "localities": [
+        {
+          "name": "Greater Noida",
+          "lat": 28.4736,
+          "lon": 77.5019,
+          "premium": 0.531,
+          "state": "Uttar Pradesh"
+        },
+        {
+          "name": "Gurgaon - Cyber City / DLF",
+          "lat": 28.4935,
+          "lon": 77.0798,
+          "premium": 1.367,
+          "state": "Haryana"
+        },
+        {
+          "name": "Gurgaon - Golf Course Rd",
+          "lat": 28.4585,
+          "lon": 77.0281,
+          "premium": 1.943,
+          "state": "Haryana"
+        },
+        {
+          "name": "Gurgaon - Sohna Road",
+          "lat": 28.3967,
+          "lon": 77.038,
+          "premium": 0.897,
+          "state": "Haryana"
+        },
+        {
+          "name": "Noida - Sector 62",
+          "lat": 28.6286,
+          "lon": 77.3658,
+          "premium": 0.755,
+          "state": "Uttar Pradesh"
+        },
+        {
+          "name": "Noida Expressway",
+          "lat": 28.5097,
+          "lon": 77.4016,
+          "premium": 0.849,
+          "state": "Uttar Pradesh"
+        },
+        {
+          "name": "South Delhi - GK / Saket",
+          "lat": 28.5425,
+          "lon": 77.2459,
+          "premium": 2.693
+        }
+      ]
+    },
+    {
+      "name": "Hyderabad",
+      "state": "Telangana",
+      "base_psf": 11688,
+      "source": "legacy_dataset_derived",
+      "localities": [
+        {
+          "name": "Gachibowli",
+          "lat": 17.439,
+          "lon": 78.3509,
+          "premium": 0.98
+        },
+        {
+          "name": "Hitec City",
+          "lat": 17.4433,
+          "lon": 78.3787,
+          "premium": 1.094
+        },
+        {
+          "name": "Jubilee Hills",
+          "lat": 17.4333,
+          "lon": 78.4076,
+          "premium": 1.799
+        },
+        {
+          "name": "Kondapur",
+          "lat": 17.4699,
+          "lon": 78.3587,
+          "premium": 0.825
+        },
+        {
+          "name": "Madhapur",
+          "lat": 17.4461,
+          "lon": 78.3895,
+          "premium": 1.05
+        },
+        {
+          "name": "Miyapur",
+          "lat": 17.496,
+          "lon": 78.3517,
+          "premium": 0.611
+        }
+      ]
+    },
+    {
+      "name": "Kolkata",
+      "state": "West Bengal",
+      "base_psf": 9295,
+      "source": "legacy_dataset_derived",
+      "localities": [
+        {
+          "name": "Ballygunge",
+          "lat": 22.5285,
+          "lon": 88.3674,
+          "premium": 1.69
+        },
+        {
+          "name": "New Town",
+          "lat": 22.5841,
+          "lon": 88.4778,
+          "premium": 0.813
+        },
+        {
+          "name": "Rajarhat",
+          "lat": 22.6163,
+          "lon": 88.4855,
+          "premium": 0.699
+        },
+        {
+          "name": "Salt Lake",
+          "lat": 22.5856,
+          "lon": 88.4164,
+          "premium": 1.175
+        }
+      ]
+    },
+    {
+      "name": "Mumbai (MMR)",
+      "state": "Maharashtra",
+      "base_psf": 24043,
+      "source": "legacy_dataset_derived",
+      "localities": [
+        {
+          "name": "Andheri West",
+          "lat": 19.1221,
+          "lon": 72.8456,
+          "premium": 1.182
+        },
+        {
+          "name": "Bandra West",
+          "lat": 19.0593,
+          "lon": 72.83,
+          "premium": 2.055
+        },
+        {
+          "name": "Borivali West",
+          "lat": 19.2312,
+          "lon": 72.8585,
+          "premium": 0.856
+        },
+        {
+          "name": "Navi Mumbai (Vashi/Nerul)",
+          "lat": 19.0348,
+          "lon": 73.0281,
+          "premium": 0.565
+        },
+        {
+          "name": "Powai",
+          "lat": 19.1187,
+          "lon": 72.9073,
+          "premium": 1.023
+        },
+        {
+          "name": "Thane West",
+          "lat": 19.2183,
+          "lon": 72.9773,
+          "premium": 0.622
+        },
+        {
+          "name": "Worli / South Mumbai",
+          "lat": 19.0146,
+          "lon": 72.8182,
+          "premium": 1.932
+        }
+      ]
+    },
+    {
+      "name": "Pune",
+      "state": "Maharashtra",
+      "base_psf": 11144,
+      "source": "legacy_dataset_derived",
+      "localities": [
+        {
+          "name": "Baner",
+          "lat": 18.5627,
+          "lon": 73.787,
+          "premium": 1.018
+        },
+        {
+          "name": "Hinjewadi",
+          "lat": 18.5883,
+          "lon": 73.7391,
+          "premium": 0.747
+        },
+        {
+          "name": "Kharadi",
+          "lat": 18.5504,
+          "lon": 73.9324,
+          "premium": 0.894
+        },
+        {
+          "name": "Kothrud",
+          "lat": 18.5064,
+          "lon": 73.8113,
+          "premium": 1.205
+        },
+        {
+          "name": "Viman Nagar",
+          "lat": 18.5668,
+          "lon": 73.9143,
+          "premium": 1.104
+        },
+        {
+          "name": "Wakad",
+          "lat": 18.6023,
+          "lon": 73.7627,
+          "premium": 0.785
+        }
+      ]
+    },
+    {
+      "name": "Nagpur",
+      "state": "Maharashtra",
+      "base_psf": 5000,
+      "source": "indicative_estimate",
+      "localities": [
+        {
+          "name": "Dharampeth",
+          "lat": 21.14,
+          "lon": 79.06,
+          "premium": 1.25
+        },
+        {
+          "name": "Wardha Road",
+          "lat": 21.1,
+          "lon": 79.05,
+          "premium": 1.0
+        },
+        {
+          "name": "Manish Nagar",
+          "lat": 21.095,
+          "lon": 79.033,
+          "premium": 0.9
+        }
+      ]
+    },
+    {
+      "name": "Coimbatore",
+      "state": "Tamil Nadu",
+      "base_psf": 5000,
+      "source": "indicative_estimate",
+      "localities": [
+        {
+          "name": "RS Puram",
+          "lat": 11.007,
+          "lon": 76.959,
+          "premium": 1.2
+        },
+        {
+          "name": "Saravanampatti",
+          "lat": 11.083,
+          "lon": 76.996,
+          "premium": 1.0
+        },
+        {
+          "name": "Singanallur",
+          "lat": 11.0,
+          "lon": 77.02,
+          "premium": 0.9
+        }
+      ]
+    },
+    {
+      "name": "Ahmedabad",
+      "state": "Gujarat",
+      "base_psf": 6000,
+      "source": "indicative_estimate",
+      "localities": [
+        {
+          "name": "Prahlad Nagar",
+          "lat": 23.012,
+          "lon": 72.507,
+          "premium": 1.3
+        },
+        {
+          "name": "SG Highway",
+          "lat": 23.05,
+          "lon": 72.51,
+          "premium": 1.35
+        },
+        {
+          "name": "Bopal",
+          "lat": 23.03,
+          "lon": 72.47,
+          "premium": 1.0
+        },
+        {
+          "name": "Gota",
+          "lat": 23.1,
+          "lon": 72.53,
+          "premium": 0.85
+        }
+      ]
+    },
+    {
+      "name": "Vadodara",
+      "state": "Gujarat",
+      "base_psf": 4800,
+      "source": "indicative_estimate",
+      "localities": [
+        {
+          "name": "Alkapuri",
+          "lat": 22.309,
+          "lon": 73.18,
+          "premium": 1.25
+        },
+        {
+          "name": "Gotri",
+          "lat": 22.31,
+          "lon": 73.155,
+          "premium": 1.0
+        },
+        {
+          "name": "Manjalpur",
+          "lat": 22.27,
+          "lon": 73.187,
+          "premium": 0.9
+        }
+      ]
+    },
+    {
+      "name": "Surat",
+      "state": "Gujarat",
+      "base_psf": 5000,
+      "source": "indicative_estimate",
+      "localities": [
+        {
+          "name": "Adajan",
+          "lat": 21.196,
+          "lon": 72.795,
+          "premium": 1.25
+        },
+        {
+          "name": "Vesu",
+          "lat": 21.145,
+          "lon": 72.771,
+          "premium": 1.2
+        },
+        {
+          "name": "Pal",
+          "lat": 21.2,
+          "lon": 72.81,
+          "premium": 1.0
+        }
+      ]
+    },
+    {
+      "name": "Jaipur",
+      "state": "Rajasthan",
+      "base_psf": 5500,
+      "source": "indicative_estimate",
+      "localities": [
+        {
+          "name": "Vaishali Nagar",
+          "lat": 26.912,
+          "lon": 75.74,
+          "premium": 1.2
+        },
+        {
+          "name": "Malviya Nagar",
+          "lat": 26.855,
+          "lon": 75.813,
+          "premium": 1.1
+        },
+        {
+          "name": "Mansarovar",
+          "lat": 26.859,
+          "lon": 75.765,
+          "premium": 1.0
+        },
+        {
+          "name": "Jagatpura",
+          "lat": 26.824,
+          "lon": 75.857,
+          "premium": 0.9
+        }
+      ]
+    },
+    {
+      "name": "Lucknow",
+      "state": "Uttar Pradesh",
+      "base_psf": 5500,
+      "source": "indicative_estimate",
+      "localities": [
+        {
+          "name": "Gomti Nagar",
+          "lat": 26.855,
+          "lon": 80.995,
+          "premium": 1.25
+        },
+        {
+          "name": "Hazratganj",
+          "lat": 26.85,
+          "lon": 80.946,
+          "premium": 1.3
+        },
+        {
+          "name": "Sushant Golf City",
+          "lat": 26.793,
+          "lon": 80.947,
+          "premium": 1.1
+        },
+        {
+          "name": "Aliganj",
+          "lat": 26.888,
+          "lon": 80.944,
+          "premium": 0.95
+        }
+      ]
+    },
+    {
+      "name": "Chandigarh",
+      "state": "Chandigarh",
+      "base_psf": 7000,
+      "source": "indicative_estimate",
+      "localities": [
+        {
+          "name": "Sector 22",
+          "lat": 30.734,
+          "lon": 76.776,
+          "premium": 1.2
+        },
+        {
+          "name": "Sector 35",
+          "lat": 30.721,
+          "lon": 76.76,
+          "premium": 1.0
+        },
+        {
+          "name": "Mohali Sector 70",
+          "state": "Punjab",
+          "lat": 30.706,
+          "lon": 76.714,
+          "premium": 0.9
+        }
+      ]
+    },
+    {
+      "name": "Indore",
+      "state": "Madhya Pradesh",
+      "base_psf": 5000,
+      "source": "indicative_estimate",
+      "localities": [
+        {
+          "name": "Vijay Nagar",
+          "lat": 22.753,
+          "lon": 75.893,
+          "premium": 1.25
+        },
+        {
+          "name": "Palasia",
+          "lat": 22.723,
+          "lon": 75.883,
+          "premium": 1.2
+        },
+        {
+          "name": "Bhawarkuan",
+          "lat": 22.706,
+          "lon": 75.865,
+          "premium": 1.0
+        }
+      ]
+    },
+    {
+      "name": "Bhopal",
+      "state": "Madhya Pradesh",
+      "base_psf": 4500,
+      "source": "indicative_estimate",
+      "localities": [
+        {
+          "name": "Arera Colony",
+          "lat": 23.225,
+          "lon": 77.43,
+          "premium": 1.2
+        },
+        {
+          "name": "MP Nagar",
+          "lat": 23.233,
+          "lon": 77.433,
+          "premium": 1.15
+        },
+        {
+          "name": "Kolar Road",
+          "lat": 23.17,
+          "lon": 77.43,
+          "premium": 1.0
+        }
+      ]
+    },
+    {
+      "name": "Kochi",
+      "state": "Kerala",
+      "base_psf": 6000,
+      "source": "indicative_estimate",
+      "localities": [
+        {
+          "name": "Kakkanad",
+          "lat": 10.0159,
+          "lon": 76.3419,
+          "premium": 1.0
+        },
+        {
+          "name": "Edappally",
+          "lat": 10.026,
+          "lon": 76.308,
+          "premium": 1.1
+        },
+        {
+          "name": "Vyttila",
+          "lat": 9.969,
+          "lon": 76.318,
+          "premium": 1.15
+        }
+      ]
+    },
+    {
+      "name": "Thiruvananthapuram",
+      "state": "Kerala",
+      "base_psf": 5500,
+      "source": "indicative_estimate",
+      "localities": [
+        {
+          "name": "Kowdiar",
+          "lat": 8.524,
+          "lon": 76.944,
+          "premium": 1.25
+        },
+        {
+          "name": "Pattom",
+          "lat": 8.515,
+          "lon": 76.935,
+          "premium": 1.1
+        },
+        {
+          "name": "Kazhakootam",
+          "lat": 8.56,
+          "lon": 76.88,
+          "premium": 1.0
+        }
+      ]
+    },
+    {
+      "name": "Visakhapatnam",
+      "state": "Andhra Pradesh",
+      "base_psf": 5000,
+      "source": "indicative_estimate",
+      "localities": [
+        {
+          "name": "MVP Colony",
+          "lat": 17.73,
+          "lon": 83.33,
+          "premium": 1.2
+        },
+        {
+          "name": "Madhurawada",
+          "lat": 17.795,
+          "lon": 83.38,
+          "premium": 1.0
+        },
+        {
+          "name": "Gajuwaka",
+          "lat": 17.69,
+          "lon": 83.21,
+          "premium": 0.85
+        }
+      ]
+    },
+    {
+      "name": "Bhubaneswar",
+      "state": "Odisha",
+      "base_psf": 5000,
+      "source": "indicative_estimate",
+      "localities": [
+        {
+          "name": "Patia",
+          "lat": 20.35,
+          "lon": 85.82,
+          "premium": 1.2
+        },
+        {
+          "name": "Chandrasekharpur",
+          "lat": 20.33,
+          "lon": 85.815,
+          "premium": 1.1
+        },
+        {
+          "name": "Jaydev Vihar",
+          "lat": 20.293,
+          "lon": 85.83,
+          "premium": 1.0
+        }
+      ]
+    },
+    {
+      "name": "Patna",
+      "state": "Bihar",
+      "base_psf": 4500,
+      "source": "indicative_estimate",
+      "localities": [
+        {
+          "name": "Boring Road",
+          "lat": 25.615,
+          "lon": 85.115,
+          "premium": 1.25
+        },
+        {
+          "name": "Kankarbagh",
+          "lat": 25.6,
+          "lon": 85.19,
+          "premium": 1.1
+        },
+        {
+          "name": "Patliputra",
+          "lat": 25.61,
+          "lon": 85.095,
+          "premium": 1.0
+        }
+      ]
+    },
+    {
+      "name": "Guwahati",
+      "state": "Assam",
+      "base_psf": 5000,
+      "source": "indicative_estimate",
+      "localities": [
+        {
+          "name": "Six Mile",
+          "lat": 26.1445,
+          "lon": 91.7838,
+          "premium": 1.15
+        },
+        {
+          "name": "Beltola",
+          "lat": 26.12,
+          "lon": 91.79,
+          "premium": 1.0
+        },
+        {
+          "name": "Dispur",
+          "lat": 26.143,
+          "lon": 91.79,
+          "premium": 1.1
+        }
+      ]
+    }
+  ]
+}

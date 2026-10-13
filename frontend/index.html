@@ -1,0 +1,1245 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EstateIQ · Residential Valuation & Acquisition Intelligence</title>
+  <meta name="description" content="Precision model-based residential valuations, P10–P90 price ranges, RBI loan limits, monthly EMI schedules, stamp duty, and GST analytics for Mumbai and premier Indian micro-markets.">
+  <link rel="stylesheet" href="/css/styles.css?v=20261012-v12">
+
+  <style>
+    /* Critical Hero Layout & Aspen Homes Aesthetic Overrides */
+    .hero, .hero-immersive {
+      position: relative !important;
+      width: 100% !important;
+      max-width: 100% !important;
+      min-height: 100vh !important;
+      min-height: 100dvh !important;
+      display: flex !important;
+      flex-direction: column !important;
+      align-items: center !important;
+      justify-content: center !important;
+      margin: 0 !important;
+      padding: clamp(90px, 12vh, 130px) clamp(20px, 4vw, 60px) clamp(36px, 5vh, 56px) !important;
+      overflow: hidden !important;
+      text-align: center !important;
+      box-sizing: border-box !important;
+      grid-template-columns: none !important;
+    }
+    .hero-slideshow-container {
+      position: absolute !important;
+      top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important;
+      width: 100% !important; height: 100% !important;
+      z-index: 0 !important; overflow: hidden !important; pointer-events: none !important;
+    }
+    .hero-slideshow {
+      position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important;
+    }
+    .hero-slide {
+      position: absolute !important; inset: 0 !important; width: 100% !important; height: 100% !important;
+      background-size: cover !important; background-position: center 35% !important; background-repeat: no-repeat !important;
+      opacity: 0 !important; transition: opacity 1.2s ease-in-out !important;
+      will-change: opacity, transform !important;
+    }
+    .hero-slide.active {
+      opacity: 1 !important; z-index: 1 !important;
+    }
+    .hero-vignette {
+      position: absolute !important; inset: 0 !important; z-index: 2 !important;
+      background: radial-gradient(circle at center, rgba(8, 12, 18, 0.05) 0%, rgba(8, 12, 18, 0.25) 65%, rgba(8, 12, 18, 0.7) 100%) !important;
+      pointer-events: none !important;
+    }
+    .hero-gradient-overlay {
+      position: absolute !important; inset: 0 !important; z-index: 3 !important;
+      background: linear-gradient(180deg, rgba(8, 12, 18, 0.55) 0%, rgba(8, 12, 18, 0.04) 30%, rgba(8, 12, 18, 0.2) 65%, rgba(9, 13, 20, 0.92) 100%) !important;
+      pointer-events: none !important;
+    }
+    .hero-content {
+      position: relative !important; z-index: 10 !important;
+      width: 100% !important; max-width: 960px !important; margin: 0 auto !important;
+      display: flex !important; flex-direction: column !important; align-items: center !important; text-align: center !important;
+    }
+    .eyebrow-luxury {
+      font-size: clamp(0.76rem, 1.1vw, 0.88rem) !important;
+      font-weight: 700 !important; letter-spacing: 0.22em !important; text-transform: uppercase !important;
+      color: #f5d77f !important; margin-bottom: 20px !important; text-shadow: 0 2px 10px rgba(0,0,0,0.8) !important;
+    }
+    .hero-headline {
+      font-family: var(--serif), "Playfair Display", "Cormorant Garamond", Georgia, serif !important;
+      font-size: clamp(2.7rem, 5.8vw, 4.6rem) !important; font-weight: 400 !important;
+      line-height: 1.08 !important; letter-spacing: -0.015em !important; color: #ffffff !important;
+      text-shadow: 0 4px 26px rgba(0, 0, 0, 0.75) !important; margin: 0 auto 22px !important; max-width: 24ch !important;
+    }
+    .hero-lede {
+      font-size: clamp(1.05rem, 1.45vw, 1.25rem) !important; line-height: 1.68 !important; max-width: 66ch !important;
+      margin: 0 auto 34px !important; color: rgba(255, 255, 255, 0.92) !important;
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.75) !important;
+    }
+    .hero-cta-pills {
+      display: flex !important; flex-direction: row !important; flex-wrap: wrap !important;
+      justify-content: center !important; align-items: center !important; gap: 16px !important;
+      margin: 0 auto 36px !important;
+    }
+    .pill-action, a.pill-action {
+      display: inline-flex !important; align-items: center !important; justify-content: center !important; gap: 11px !important;
+      padding: 16px 30px !important; border-radius: 999px !important; font-size: 0.84rem !important;
+      font-weight: 700 !important; letter-spacing: 0.12em !important; text-transform: uppercase !important;
+      text-decoration: none !important; cursor: pointer !important; transition: all 0.25s ease !important;
+      backdrop-filter: blur(14px) !important; -webkit-backdrop-filter: blur(14px) !important;
+    }
+    .pill-primary, a.pill-primary {
+      background: rgba(45, 40, 32, 0.88) !important; color: #ffffff !important;
+      border: 1px solid rgba(212, 175, 55, 0.45) !important; box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5) !important;
+    }
+    .pill-primary:hover, a.pill-primary:hover {
+      background: #d4af37 !important; color: #090d14 !important; border-color: #f7e29c !important;
+      transform: translateY(-2px) !important; box-shadow: 0 16px 40px rgba(212, 175, 55, 0.4) !important;
+    }
+    .pill-glass, a.pill-glass {
+      background: rgba(22, 28, 40, 0.85) !important; color: #f0f4f8 !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+    }
+    .pill-glass:hover, a.pill-glass:hover {
+      background: rgba(36, 46, 64, 0.95) !important; border-color: rgba(255, 255, 255, 0.4) !important;
+      color: #ffffff !important; transform: translateY(-2px) !important;
+    }
+    .topbar {
+      position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; width: 100% !important;
+      z-index: 100 !important; background: transparent !important; border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+      box-shadow: none !important; backdrop-filter: blur(0px) !important; -webkit-backdrop-filter: blur(0px) !important;
+      transition: background 0.45s ease, border-color 0.45s ease, backdrop-filter 0.45s ease, padding 0.35s ease, box-shadow 0.45s ease !important;
+    }
+    .topbar:not(.scrolled) .nav a {
+      color: rgba(255, 255, 255, 0.95) !important; text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7) !important;
+    }
+    .topbar:not(.scrolled) .nav a:hover {
+      color: #f7e29c !important;
+    }
+    .topbar:not(.scrolled) .wordmark {
+      color: #ffffff !important; text-shadow: 0 2px 12px rgba(0, 0, 0, 0.75) !important;
+    }
+    .topbar.scrolled {
+      padding: 13px clamp(20px, 4.5vw, 56px) !important;
+      background: rgba(9, 13, 20, 0.88) !important;
+      backdrop-filter: saturate(180%) blur(20px) !important;
+      -webkit-backdrop-filter: saturate(180%) blur(20px) !important;
+      border-bottom: 1px solid rgba(212, 175, 55, 0.25) !important;
+      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5) !important;
+    }
+    :root[data-theme="light"] .topbar.scrolled {
+      background: rgba(248, 246, 240, 0.92) !important;
+      border-bottom: 1px solid rgba(184, 134, 11, 0.22) !important;
+      box-shadow: 0 12px 36px rgba(50, 40, 20, 0.1) !important;
+    }
+    :root[data-theme="light"] .topbar.scrolled .nav a {
+      color: #333d4e !important; text-shadow: none !important;
+    }
+    :root[data-theme="light"] .topbar.scrolled .wordmark {
+      color: #141a24 !important; text-shadow: none !important;
+    }
+    .topbar-actions {
+      display: flex !important; align-items: center !important; gap: 12px !important;
+    }
+    .pill-btn, a.pill-btn {
+      display: inline-flex !important; align-items: center !important; gap: 8px !important;
+      padding: 10px 20px !important; border-radius: 999px !important; font-size: 0.78rem !important;
+      font-weight: 700 !important; letter-spacing: 0.12em !important; text-transform: uppercase !important;
+      text-decoration: none !important; cursor: pointer !important; transition: all 0.25s ease !important;
+      border: 1px solid rgba(255, 255, 255, 0.25) !important; background: rgba(32, 28, 22, 0.6) !important;
+      color: #ffffff !important; backdrop-filter: blur(10px) !important;
+    }
+    .pill-btn:hover, a.pill-btn:hover {
+      border-color: #d4af37 !important; background: rgba(212, 175, 55, 0.2) !important;
+      color: #f7e29c !important; transform: translateY(-1px) !important;
+    }
+    .hero-slide-dock {
+      display: flex !important; flex-direction: column !important; align-items: center !important;
+      gap: 12px !important; margin-bottom: 32px !important;
+    }
+    .slide-meta {
+      display: inline-flex !important; align-items: center !important; gap: 8px !important;
+      background: rgba(14, 18, 26, 0.75) !important; backdrop-filter: blur(12px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.14) !important; padding: 8px 18px !important;
+      border-radius: 999px !important; font-size: 0.82rem !important; font-weight: 500 !important; color: #f0f4f8 !important;
+    }
+    .slide-controls {
+      display: flex !important; align-items: center !important; gap: 14px !important;
+    }
+    .slide-indicators {
+      display: flex !important; gap: 8px !important; align-items: center !important;
+    }
+    .slide-bar {
+      width: 36px !important; height: 4px !important; padding: 0 !important; border: none !important;
+      background: rgba(255, 255, 255, 0.25) !important; border-radius: 999px !important;
+      cursor: pointer !important; position: relative !important; overflow: hidden !important; transition: all 0.3s ease !important;
+    }
+    .slide-bar.active {
+      width: 52px !important; background: rgba(255, 255, 255, 0.35) !important;
+    }
+    .slide-bar .bar-fill {
+      position: absolute !important; left: 0 !important; top: 0 !important; bottom: 0 !important;
+      width: 0 !important; background: #d4af37 !important;
+    }
+    .slide-bar.active .bar-fill {
+      width: 100% !important; transition: width 6s linear !important;
+    }
+    .slide-arrows {
+      display: flex !important; gap: 6px !important;
+    }
+    .slide-arrow-btn {
+      width: 32px !important; height: 32px !important; border-radius: 50% !important;
+      border: 1px solid rgba(255, 255, 255, 0.16) !important; background: rgba(18, 24, 34, 0.7) !important;
+      color: #ffffff !important; display: grid !important; place-items: center !important; cursor: pointer !important;
+      backdrop-filter: blur(8px) !important; transition: all 0.2s ease !important;
+    }
+    .slide-arrow-btn:hover {
+      border-color: #d4af37 !important; background: rgba(212, 175, 55, 0.25) !important;
+      color: #f7e29c !important; transform: scale(1.08) !important;
+    }
+    .hero-stats-glass {
+      display: grid !important; grid-template-columns: repeat(4, 1fr) !important; gap: 14px !important;
+      max-width: 860px !important; width: 100% !important; margin: 0 auto !important;
+    }
+    .stat-card {
+      background: rgba(16, 22, 32, 0.65) !important; backdrop-filter: blur(14px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important; border-radius: 12px !important;
+      padding: 14px 12px !important; text-align: center !important;
+      transition: transform 0.25s ease, border-color 0.25s ease !important;
+    }
+    .stat-card:hover {
+      border-color: rgba(212, 175, 55, 0.4) !important; transform: translateY(-2px) !important;
+    }
+    .stat-card dt {
+      font-size: 0.72rem !important; text-transform: uppercase !important; letter-spacing: 0.12em !important;
+      color: #94a3b8 !important; margin-bottom: 4px !important;
+    }
+    .stat-card dd {
+      margin: 0 !important; font-family: var(--serif), "Playfair Display", Georgia, serif !important;
+      font-size: 1.75rem !important; font-weight: 500 !important; color: #d4af37 !important;
+    }
+    .stat-card {
+      background: rgba(14, 20, 30, 0.72) !important;
+      backdrop-filter: blur(16px) !important;
+      -webkit-backdrop-filter: blur(16px) !important;
+      border: 1px solid rgba(255, 255, 255, 0.12) !important;
+      border-radius: 14px !important;
+      padding: 16px 14px !important;
+      text-align: center !important;
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45) !important;
+      transition: transform 0.25s ease, border-color 0.25s ease !important;
+    }
+    .stat-card:hover {
+      border-color: rgba(212, 175, 55, 0.5) !important;
+      transform: translateY(-2px) !important;
+    }
+    .stat-card dt {
+      font-size: 0.74rem !important;
+      text-transform: uppercase !important;
+      letter-spacing: 0.12em !important;
+      color: #94a3b8 !important;
+      margin-bottom: 4px !important;
+    }
+    .stat-card dd {
+      margin: 0 !important;
+      font-family: var(--serif), "Playfair Display", Georgia, serif !important;
+      font-size: 1.85rem !important;
+      font-weight: 500 !important;
+      color: #d4af37 !important;
+    }
+    .hero-location-badge {
+      display: inline-flex !important;
+      align-items: center !important;
+      gap: 9px !important;
+      padding: 8px 20px !important;
+      border-radius: 999px !important;
+      background: rgba(14, 20, 30, 0.78) !important;
+      backdrop-filter: blur(14px) !important;
+      -webkit-backdrop-filter: blur(14px) !important;
+      border: 1px solid rgba(212, 175, 55, 0.4) !important;
+      font-size: 0.82rem !important;
+      font-weight: 600 !important;
+      letter-spacing: 0.08em !important;
+      color: #f7e29c !important;
+      margin-bottom: 24px !important;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.5) !important;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7) !important;
+    }
+    .hero-location-badge .ico {
+      color: #d4af37 !important;
+    }
+    @media (max-width: 768px) {
+      .hero-stats-glass { grid-template-columns: repeat(2, 1fr) !important; }
+      .hero-cta-pills { flex-direction: column !important; width: 100% !important; }
+      .pill-action { width: 100% !important; }
+    }
+  </style>
+
+  <script type="module" src="/js/app.js?v=20261012-v15"></script>
+</head>
+<body>
+  <!-- Icon sprite. Referenced with <use href="#i-…">. -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-apartment" viewBox="0 0 24 24"><path d="M4 21V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v16M14 9h4a1 1 0 0 1 1 1v11M3 21h18M8 8h2M8 12h2M8 16h2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-floor" viewBox="0 0 24 24"><path d="M3 20h18M4 20V8l8-4 8 4v12M9 20v-6h6v6M8 11h.01M16 11h.01" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-villa" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7M5 10v10h14V10M10 20v-5h4v5M18 4v3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-penthouse" viewBox="0 0 24 24"><path d="M3 21h18M5 21V11h14v10M8 11V7h8v4M10 7V4h4v3M9 15h2M13 15h2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+      <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+      <symbol id="i-send" viewBox="0 0 24 24"><path d="M4 12l16-8-6 16-2.5-6.5L4 12z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+      <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.4 8-8 9-4.6-1-8-4.5-8-9V6l8-3z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 4l9 16H3L12 4zM12 10v4M12 17h.01" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="9.5" r="2.5" fill="none" stroke="currentColor" stroke-width="1.6"/></symbol>
+      <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+      <symbol id="i-doc" viewBox="0 0 24 24"><path d="M7 3h7l5 5v13H7V3zM14 3v5h5M10 13h6M10 17h6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+      <symbol id="i-chat" viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4V5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+      <symbol id="i-phone" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-plan" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M3 9h18M9 21V9M9 15h12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+      <symbol id="i-home" viewBox="0 0 24 24"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-9.5z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 21v-7h6v7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><polygon points="6 4 20 12 6 20 6 4" fill="currentColor"/></symbol>
+      <symbol id="i-pause" viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" fill="currentColor"/><rect x="14" y="4" width="4" height="16" fill="currentColor"/></symbol>
+      <symbol id="i-prev" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-next" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-video" viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z" fill="currentColor"/></symbol>
+      <symbol id="i-close" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-printer" viewBox="0 0 24 24"><path d="M6 9V2h12v7M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2M6 14h12v8H6z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    </defs>
+  </svg>
+
+  <a class="skip-link" href="#estimate">Skip to the estimator</a>
+
+  <!-- ============ TOPBAR ============ -->
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="EstateIQ home">
+      <svg class="logo" viewBox="0 0 40 40" aria-hidden="true">
+        <defs>
+          <linearGradient id="estateLogoG" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#fceda4"/>
+            <stop offset="45%" stop-color="#d4af37"/>
+            <stop offset="100%" stop-color="#a07a1b"/>
+          </linearGradient>
+        </defs>
+        <path d="M5 21L20 8l15 13v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V21z" fill="none" stroke="url(#estateLogoG)" stroke-width="2.2" stroke-linejoin="round"/>
+        <path d="M13 18h11M13 24h8M13 30h11" fill="none" stroke="url(#estateLogoG)" stroke-width="1.8" stroke-linecap="round"/>
+        <circle cx="28" cy="24" r="2" fill="#d4af37"/>
+      </svg>
+      <div class="brand-text">
+        <span class="wordmark">Estate<em>IQ</em></span>
+        <span class="submark">VALUATION INTELLIGENCE</span>
+      </div>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      <a href="#estimate">Valuation Engine</a>
+      <a href="#market">Prime Markets</a>
+      <a href="#method">Methodology</a>
+      <a href="#ask">Advisor Concierge</a>
+      <a href="#rulesModal" id="rulesNavBtn">Statutory Rules</a>
+    </nav>
+    <div class="topbar-actions">
+      <button class="pill-btn pill-ghost" type="button" id="talkTeamBtn" aria-label="Talk to our valuation team">
+        <svg class="ico sm" aria-hidden="true"><use href="#i-phone"/></svg>
+        <span>TALK TO OUR TEAM</span>
+      </button>
+      <button class="icon-btn" id="themeToggle" type="button" aria-label="Switch colour theme">
+        <svg class="ico" aria-hidden="true"><use href="#i-sun"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ============ HERO WITH SLIDESHOW & VIDEO (ASPEN HOMES STYLE) ============ -->
+    <section class="hero hero-immersive" id="top">
+      <!-- Background Slideshow Layer -->
+      <div class="hero-slideshow-container" aria-hidden="true">
+        <div class="hero-slideshow" id="heroSlideshow">
+          <div class="hero-slide active" data-index="0" data-location="Worli Sea Face, Mumbai · Arabian Sea Penthouse" style="background-image: url('/assets/images/slide1-worli.jpg');"></div>
+          <div class="hero-slide" data-index="1" data-location="Malabar Hill, Mumbai · Cliffside Oceanfront Villa" style="background-image: url('/assets/images/slide5-malabarhill.jpg');"></div>
+          <div class="hero-slide" data-index="2" data-location="Cuffe Parade, Mumbai · South Mumbai Skydeck Penthouse" style="background-image: url('/assets/images/slide6-cuffeparade.jpg');"></div>
+          <div class="hero-slide" data-index="3" data-location="Bandra West, Mumbai · Modernist Coastal Residence" style="background-image: url('/assets/images/slide2-bandra.jpg');"></div>
+          <div class="hero-slide" data-index="4" data-location="Alibaug Coast, Mumbai MMR · Private Pavilion Estate" style="background-image: url('/assets/images/slide7-alibaug.jpg');"></div>
+          <div class="hero-slide" data-index="5" data-location="Juhu Beach, Mumbai · Oceanfront Modernist Mansion" style="background-image: url('/assets/images/slide8-juhu.jpg');"></div>
+          <div class="hero-slide" data-index="6" data-location="Lower Parel, Mumbai · Skyline Glass Skydeck" style="background-image: url('/assets/images/slide3-lowerparel.jpg');"></div>
+          <div class="hero-slide" data-index="7" data-location="Juhu Palm Beach, Mumbai · Private Seaside Estate" style="background-image: url('/assets/images/slide4-juhu.jpg');"></div>
+        </div>
+        <!-- Optional Ambient Video Element -->
+        <video class="hero-bg-video" id="heroVideo" autoplay loop muted playsinline poster="/assets/images/slide1-worli.jpg" hidden></video>
+        <!-- Luxury Atmospheric Gradients -->
+        <div class="hero-vignette"></div>
+        <div class="hero-gradient-overlay"></div>
+      </div>
+
+      <!-- Hero Main Editorial Copy (Aspen Homes Style) -->
+      <div class="hero-content reveal in">
+        <p class="eyebrow-luxury">ESTATEIQ · ARCHITECTURAL RESIDENTIAL VALUATION · MUMBAI & PAN-INDIA</p>
+        <h1 class="hero-headline">Building More Than Your Dream Home</h1>
+        <p class="hero-lede">Model-based precision valuations, calibrated P10–P90 price ranges, RBI loan-to-value caps, reducing EMI schedules, stamp duty, and complete statutory acquisition cost analytics for India's finest residences.</p>
+
+        <!-- Aspen Homes Pill CTA Buttons -->
+        <div class="hero-cta-pills">
+          <a class="pill-action pill-primary" href="#estimate">
+            <svg class="ico sm" aria-hidden="true"><use href="#i-plan"/></svg>
+            <span>START WITH A FLOOR PLAN</span>
+          </a>
+          <a class="pill-action pill-glass" href="#market">
+            <svg class="ico sm" aria-hidden="true"><use href="#i-home"/></svg>
+            <span>TOUR OUR PRIME MARKETS</span>
+          </a>
+        </div>
+
+        <!-- Live Architectural Location Badge -->
+        <div class="hero-location-badge" id="heroLocationBadge">
+          <svg class="ico xs" aria-hidden="true"><use href="#i-pin"/></svg>
+          <span id="slideLocationText">01 / 08 · Worli Sea Face, Mumbai · Arabian Sea Penthouse</span>
+        </div>
+
+        <!-- Floating Glass Stats Bar -->
+        <dl class="hero-stats-glass" id="heroStats">
+          <div class="stat-card">
+            <dt>Prime Cities</dt>
+            <dd data-stat="cities">–</dd>
+          </div>
+          <div class="stat-card">
+            <dt>Micro-Markets</dt>
+            <dd data-stat="localities">–</dd>
+          </div>
+          <div class="stat-card">
+            <dt>Holdout Error</dt>
+            <dd data-stat="mape">–</dd>
+          </div>
+          <div class="stat-card">
+            <dt>States Covered</dt>
+            <dd data-stat="states">–</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ============ ESTIMATOR ============ -->
+    <section id="estimate" class="section">
+      <header class="section-head reveal">
+        <p class="eyebrow">01 · Valuation Engine</p>
+        <h2>Market Value and Total Acquisition Cost</h2>
+        <p class="muted">Select premier locations across Mumbai MMR or India, configure the architectural specifications, and preview complete financing dynamics in real time.</p>
+      </header>
+
+      <!-- Quick Mumbai Presets Bar -->
+      <div class="presets-container reveal">
+        <div class="presets-header">
+          <span class="presets-tag"><svg class="ico xs" aria-hidden="true"><use href="#i-sparkle"/></svg> Mumbai Prime Presets</span>
+          <span class="muted small">Instant 1-click architectural configurations:</span>
+        </div>
+        <div class="presets-chips">
+          <button type="button" class="preset-btn" data-preset="worli">
+            <strong>Worli Sea Face</strong> · 3 BHK · 2,200 sq.ft
+          </button>
+          <button type="button" class="preset-btn" data-preset="bandra">
+            <strong>Bandra West Villa</strong> · 4 BHK · 3,500 sq.ft
+          </button>
+          <button type="button" class="preset-btn" data-preset="lowerparel">
+            <strong>Lower Parel Skydeck</strong> · 4 BHK · 2,800 sq.ft
+          </button>
+          <button type="button" class="preset-btn" data-preset="juhu">
+            <strong>Juhu Beachfront</strong> · 5 BHK · 4,200 sq.ft
+          </button>
+        </div>
+      </div>
+
+      <div class="estimate-layout-horizontal">
+        <!-- ============ HORIZONTAL CONFIGURATOR DECK ============ -->
+        <form id="estimateForm" class="panel form horizontal-form reveal" novalidate>
+          <div class="form-deck-header">
+            <div class="deck-title-group">
+              <span class="eyebrow">ARCHITECTURAL CONFIGURATOR DECK</span>
+              <h3 class="deck-heading">Property Parameters &amp; Capital Structure</h3>
+            </div>
+            <div class="deck-badge">
+              <svg class="ico xs" aria-hidden="true"><use href="#i-sparkle"/></svg>
+              <span>REAL-TIME ENGINE</span>
+            </div>
+          </div>
+
+          <div class="config-deck-columns">
+            <!-- COLUMN A: LOCATION -->
+            <fieldset class="group deck-col">
+              <legend><span class="step">A</span> Location</legend>
+              <label class="field">
+                <span>Target City</span>
+                <select id="city" name="city" required></select>
+              </label>
+              <label class="field">
+                <span>Micro-market</span>
+                <select id="locality" name="locality" required></select>
+                <small class="hint" id="stateHint"></small>
+              </label>
+              <div class="field">
+                <span id="typeLabel">Property Type</span>
+                <div class="type-grid" role="radiogroup" aria-labelledby="typeLabel" id="typeGroup"></div>
+              </div>
+            </fieldset>
+
+            <!-- COLUMN B: SPECIFICATIONS -->
+            <fieldset class="group deck-col">
+              <legend><span class="step">B</span> Dimensions &amp; Layout</legend>
+              <div class="field">
+                <span id="bhkLabel">Bedrooms (BHK)</span>
+                <div class="seg" role="radiogroup" aria-labelledby="bhkLabel" id="bhkGroup"></div>
+              </div>
+              <div class="field">
+                <label for="area"><span>Carpet Area (sq.ft.)</span></label>
+                <div class="pair">
+                  <input type="number" id="area" min="200" max="10000" step="10" value="1500" inputmode="numeric">
+                  <input type="range" id="areaRange" min="200" max="10000" step="10" value="1500" aria-label="Area slider">
+                </div>
+                <small class="hint" id="areaHint">Typical for 3 BHK: 1,200 to 2,100 sq.ft.</small>
+              </div>
+              <div class="field-row">
+                <div class="field">
+                  <span id="bathLabel">Bathrooms</span>
+                  <div class="stepper" role="group" aria-labelledby="bathLabel">
+                    <button type="button" data-step="bathrooms" data-d="-1" aria-label="Fewer bathrooms">−</button>
+                    <output id="bathrooms">3</output>
+                    <button type="button" data-step="bathrooms" data-d="1" aria-label="More bathrooms">+</button>
+                  </div>
+                </div>
+                <div class="field">
+                  <span id="parkLabel">Parking Bays</span>
+                  <div class="stepper" role="group" aria-labelledby="parkLabel">
+                    <button type="button" data-step="parking" data-d="-1" aria-label="Less parking">−</button>
+                    <output id="parking">1</output>
+                    <button type="button" data-step="parking" data-d="1" aria-label="More parking">+</button>
+                  </div>
+                </div>
+              </div>
+            </fieldset>
+
+            <!-- COLUMN C: CONDITION & VINTAGE -->
+            <fieldset class="group deck-col">
+              <legend><span class="step">C</span> Vintage &amp; Status</legend>
+              <div class="field">
+                <span id="furnLabel">Furnishing Grade</span>
+                <div class="seg" role="radiogroup" aria-labelledby="furnLabel" id="furnGroup"></div>
+              </div>
+              <div class="field">
+                <span id="statusLabel">Construction Status</span>
+                <div class="seg" role="radiogroup" aria-labelledby="statusLabel" id="statusGroup"></div>
+              </div>
+              <label class="field">
+                <span>Structure Age: <output id="ageOut">2</output> yrs</span>
+                <input type="range" id="age" min="0" max="50" step="1" value="2">
+              </label>
+            </fieldset>
+
+            <!-- COLUMN D: FINANCING TERMS -->
+            <fieldset class="group deck-col">
+              <legend><span class="step">D</span> Financing Terms</legend>
+              <label class="field">
+                <span>Down payment: <output id="dpOut">20</output>%</span>
+                <input type="range" id="dp" min="0" max="100" step="1" value="20">
+              </label>
+              <label class="field">
+                <span>Annual Interest: <output id="rateOut">8.5</output>% p.a.</span>
+                <input type="range" id="rate" min="6.5" max="14" step="0.05" value="8.5">
+              </label>
+              <label class="field">
+                <span>Tenure: <output id="tenureOut">20</output> years</span>
+                <input type="range" id="tenure" min="5" max="30" step="1" value="20">
+              </label>
+            </fieldset>
+          </div>
+
+          <!-- HORIZONTAL SUBMIT & ACTION STRIP -->
+          <div class="deck-action-bar">
+            <p class="form-error" id="formError" role="alert" hidden></p>
+            <div class="deck-btn-group">
+              <button class="btn btn-primary btn-calc-valuation" id="submitBtn" type="submit">
+                <svg class="ico sm" aria-hidden="true"><use href="#i-sparkle"/></svg>
+                <span class="btn-label">Calculate Precision Valuation</span>
+                <span class="btn-spinner" aria-hidden="true"></span>
+              </button>
+              <button type="button" class="btn btn-deck-chat" id="deckChatBtn" title="Ask EstateIQ AI Advisor Concierge" aria-label="Ask EstateIQ AI Advisor Concierge">
+                <svg class="ico sm" aria-hidden="true"><use href="#i-chat"/></svg>
+                <span class="btn-label">Ask Advisor AI</span>
+                <span class="chat-live-pulse" aria-hidden="true"></span>
+              </button>
+            </div>
+            <div class="deck-guarantee-note">
+              <svg class="ico xs" aria-hidden="true"><use href="#i-shield"/></svg>
+              <span>Calibrated against verified NHB RESIDEX indices &amp; statutory state stamp duties.</span>
+            </div>
+          </div>
+        </form>
+
+        <!-- ============ FULL-WIDTH RESULTS DECK ============ -->
+        <section class="results horizontal-results" id="results" aria-live="polite" aria-label="Estimate results">
+          <div class="panel empty-state" id="resultsEmpty">
+            <svg class="empty-art" viewBox="0 0 160 120" aria-hidden="true">
+              <rect x="20" y="40" width="28" height="60" rx="3" class="ea"/>
+              <rect x="56" y="18" width="28" height="82" rx="3" class="eb"/>
+              <rect x="92" y="54" width="28" height="46" rx="3" class="ec"/>
+              <path d="M10 104h140" class="ea-line"/>
+            </svg>
+            <h3>Your Valuation Report &amp; Financial Blueprint Appears Here</h3>
+            <p class="muted">Configure your residence above or select one of the Mumbai Prime presets to instantly calculate the precision valuation, RBI loan eligibility, monthly EMI schedule, statutory stamp duties, and 10-year appreciation forecast.</p>
+          </div>
+
+          <div class="panel skeleton-panel" id="resultsLoading" hidden>
+            <div class="sk-line w-40"></div>
+            <div class="sk-line w-70 tall"></div>
+            <div class="sk-line w-100"></div>
+            <div class="sk-grid"><span></span><span></span><span></span><span></span></div>
+          </div>
+
+          <div class="panel error-panel" id="resultsError" hidden role="alert">
+            <svg class="ico" aria-hidden="true"><use href="#i-alert"/></svg>
+            <div>
+              <h3>Valuation Computation Error</h3>
+              <p id="errorText" class="muted"></p>
+            </div>
+          </div>
+
+          <div id="resultsBody" hidden>
+            <!-- WIDE LUXURY RESULT HERO WITH REPORT FEATURE -->
+            <article class="panel result-hero reveal">
+              <div class="result-hero-layout">
+                <div class="hero-val-left">
+                  <div class="hero-val-badge">
+                    <svg class="ico xs" aria-hidden="true"><use href="#i-sparkle"/></svg>
+                    <span>ESTATEIQ RESIDENTIAL VALUATION INTELLIGENCE</span>
+                  </div>
+                  <p class="price" id="outPrice">–</p>
+                  <p class="rate"><span id="outRate">–</span> per sq.ft. <span class="badge" id="outVs">–</span></p>
+
+                  <div class="range" aria-label="Price range">
+                    <div class="range-track"><div class="range-fill" id="rangeFill"></div><div class="range-dot" id="rangeDot"></div></div>
+                    <div class="range-labels">
+                      <span><small>P10 (Conservative)</small><b id="outLow">–</b></span>
+                      <span class="r"><small>P90 (Optimistic)</small><b id="outHigh">–</b></span>
+                    </div>
+                    <p class="hint" id="rangeNote"></p>
+                  </div>
+                </div>
+
+                <!-- RIGHT SIDE ACTION: CERTIFIED REPORT FEATURE -->
+                <div class="hero-report-right">
+                  <div class="report-box-card">
+                    <div class="rep-card-head">
+                      <svg class="ico sm rep-seal-icon" aria-hidden="true"><use href="#i-shield"/></svg>
+                      <div>
+                        <h4>Certified Property Valuation Dossier</h4>
+                        <span class="muted small">ML-Grounded Audit &amp; Acquisition Blueprint</span>
+                      </div>
+                    </div>
+                    <p class="rep-summary-text">Generate a comprehensive, printable official valuation dossier including P10–P90 statistical confidence, RBI loan eligibility, 10-year appreciation forecast, and statutory stamp duty breakdown.</p>
+                    <button type="button" class="btn-dossier-report" id="heroReportBtn">
+                      <svg class="ico sm" aria-hidden="true"><use href="#i-doc"/></svg>
+                      <span>GENERATE CERTIFIED REPORT (PDF)</span>
+                      <span class="report-instant-tag">INSTANT</span>
+                    </button>
+                    <div class="rep-footer-stamp">
+                      <svg class="ico xs" aria-hidden="true"><use href="#i-check"/></svg>
+                      <span>Primary Source Provenance Verified (NHB RESIDEX)</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <!-- ACQUISITION CAPITAL & OUTLAY WITH FORMATTED DONUTS -->
+            <article class="panel reveal">
+              <header class="card-head">
+                <div>
+                  <p class="eyebrow" style="margin-bottom:4px;">CAPITAL ALLOCATION &amp; OUTLAY</p>
+                  <h3>Financing Dynamics &amp; Statutory Fees</h3>
+                </div>
+                <span class="muted small" id="ltvNote"></span>
+              </header>
+              <div class="kpis" id="kpis"></div>
+              
+              <!-- REFORMATTED LUXURY CIRCLE DONUTS -->
+              <div class="split donuts-deck">
+                <div class="donut-card">
+                  <figure class="chart donut-wrap" id="costBar" aria-label="Upfront cash versus loan"></figure>
+                  <div class="donut-legend-info">
+                    <span class="donut-info-title">RBI Loan-to-Value</span>
+                    <span class="donut-info-sub">Approved capital funded via residential mortgage</span>
+                  </div>
+                </div>
+                <div class="donut-card">
+                  <figure class="chart donut-wrap" id="emiDonut" aria-label="Interest versus principal over the loan"></figure>
+                  <div class="donut-legend-info">
+                    <span class="donut-info-title">Cumulative Interest Amortisation</span>
+                    <span class="donut-info-sub">Proportion of total repayment dedicated to bank interest</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="stack" id="stackBar"></div>
+              <ul class="legend" id="stackLegend"></ul>
+            </article>
+
+            <!-- HISTORICAL & 10-YEAR FUTURE PRICE PREDICTION MODEL -->
+            <article class="panel forecast-card reveal" id="forecastPanel">
+              <header class="card-head">
+                <div>
+                  <p class="eyebrow" style="margin-bottom:4px;">EMPIRICAL APPRECIATION MODEL</p>
+                  <h3>Historical Trend &amp; 10-Year Future Price Forecast</h3>
+                </div>
+                <div class="forecast-scenario-toggle" id="forecastScenarios" role="radiogroup" aria-label="Appreciation scenarios">
+                  <button type="button" class="scenario-btn" data-cagr="0.055" role="radio" aria-checked="false">Conservative (5.5%)</button>
+                  <button type="button" class="scenario-btn active" data-cagr="0.084" role="radio" aria-checked="true">Benchmark (8.4% NHB)</button>
+                  <button type="button" class="scenario-btn" data-cagr="0.118" role="radio" aria-checked="false">Prime Growth (11.8%)</button>
+                </div>
+              </header>
+
+              <div class="forecast-kpis" id="forecastKpis">
+                <!-- Injected dynamically via app.js -->
+              </div>
+
+              <figure class="chart forecast-chart-wrap" id="forecastChart" aria-label="10-Year price projection trajectory curve"></figure>
+
+              <div class="forecast-provenance-box">
+                <div class="prov-badge">
+                  <svg class="ico xs" aria-hidden="true"><use href="#i-shield"/></svg>
+                  <span>DATA PROVENANCE: NHB RESIDEX &amp; PAN-INDIA TRANSACTIONS</span>
+                </div>
+                <p>Appreciation baseline is strictly grounded in the National Housing Bank (NHB) RESIDEX Historical Indices (2013–2026) and verified Pan-India housing transaction records. Projections compound annually at geometric mean rates across prime micro-markets.</p>
+              </div>
+            </article>
+
+            <!-- STATUTORY PROVENANCE & RULE RESOLUTION AUDIT -->
+            <article class="panel rules-audit-card reveal" id="rulesAuditPanel">
+              <header class="card-head">
+                <div>
+                  <p class="eyebrow" style="margin-bottom:4px;">STATUTORY PROVENANCE &amp; LEGAL AUDIT</p>
+                  <h3>Point-in-Time Regulatory Rule Citations</h3>
+                </div>
+                <button type="button" class="btn-text-gold" id="openRulesExplorerBtn">
+                  <span>View All Active Rules →</span>
+                </button>
+              </header>
+              <div class="rules-applied-grid" id="rulesAppliedGrid">
+                <!-- Dynamically populated by app.js -->
+              </div>
+              <p class="hint" id="rulesAuditHint">
+                Every calculation is permanently effective-dated. Financial constants are resolved from statutory gazette notifications and official regulatory master directions.
+              </p>
+            </article>
+
+            <!-- EMI SENSITIVITY MATRIX -->
+            <article class="panel reveal">
+              <header class="card-head">
+                <div>
+                  <p class="eyebrow" style="margin-bottom:4px;">AMORTISATION MATRIX</p>
+                  <h3>EMI Sensitivity Matrix</h3>
+                </div>
+                <span class="muted small">Dynamic Amortisation across Rates &amp; Tenures</span>
+              </header>
+              <figure class="chart" id="emiLines" aria-label="Monthly EMI by tenure for three rates"></figure>
+              <div class="table-wrap"><table id="emiTable"><caption class="sr-only">Monthly EMI grid</caption></table></div>
+            </article>
+
+            <!-- ARCHITECTURAL COMPARABLES -->
+            <article class="panel reveal">
+              <header class="card-head">
+                <div>
+                  <p class="eyebrow" style="margin-bottom:4px;">MARKET DISCOVERY</p>
+                  <h3>Micro-Market Comparables</h3>
+                </div>
+                <span class="muted small" id="compKind"></span>
+              </header>
+              <div class="comps" id="comps"></div>
+              <p class="hint" id="compNote"></p>
+            </article>
+
+            <p class="notice reveal" id="provNote"></p>
+          </div>
+        </section>
+      </div>
+    </section>
+
+    <!-- ============ PRIME MARKETS ============ -->
+    <section id="market" class="section">
+      <header class="section-head reveal">
+        <p class="eyebrow">02 · Prime Markets</p>
+        <h2>Capital Value Benchmarks Across India</h2>
+        <p class="muted">Predicted rate per sq.ft. for a standardized benchmark reference residence (3 BHK, 1,500 sq.ft., ready to move, 2 years old, semi-furnished) to ensure true apple-to-apple comparison across micro-markets.</p>
+      </header>
+      <div class="market-grid">
+        <article class="panel reveal">
+          <header class="card-head"><h3>Median ₹/sq.ft. by City</h3><span class="muted small">Sorted high to low</span></header>
+          <div id="cityChart" class="hbar" aria-label="Median rate per square foot by city"></div>
+        </article>
+        <article class="panel reveal prime-markets-map-panel">
+          <header class="card-head">
+            <div>
+              <h3>Micro-Market Geographic Intelligence</h3>
+              <p class="muted small">Interactive spatial footprint across 23 prime urban corridors &amp; 94 benchmark micro-markets</p>
+            </div>
+            <span class="badge-dot-legend">Dot intensity = ₹/sq.ft.</span>
+          </header>
+
+          <!-- Cluster Filter Chips -->
+          <div class="cluster-filter-pills" id="clusterFilterPills" role="tablist" aria-label="Filter micro-market clusters">
+            <button type="button" class="cluster-pill active" data-filter="all">All Pan-India (94)</button>
+            <button type="button" class="cluster-pill" data-filter="Mumbai (MMR)">Mumbai MMR</button>
+            <button type="button" class="cluster-pill" data-filter="Delhi NCR">Delhi NCR</button>
+            <button type="button" class="cluster-pill" data-filter="Bengaluru">Bengaluru</button>
+            <button type="button" class="cluster-pill" data-filter="Hyderabad">Hyderabad</button>
+            <button type="button" class="cluster-pill" data-filter="Pune">Pune</button>
+            <button type="button" class="cluster-pill" data-filter="Chennai">Chennai</button>
+            <button type="button" class="cluster-pill" data-filter="tier2">Growth Centers</button>
+          </div>
+
+          <div class="map-container-relative" id="mapWrapper">
+            <figure class="chart" id="indiaMap" aria-label="Interactive scatter map of micro-markets, coloured by price per square foot"></figure>
+            <!-- Floating Live Micro-Market HUD Card -->
+            <div class="market-hover-hud" id="marketHud" hidden>
+              <div class="hud-head">
+                <span class="hud-locality" id="hudLocality">Bandra West</span>
+                <span class="hud-tag" id="hudTag">Ultra Luxury</span>
+              </div>
+              <div class="hud-city" id="hudCity">Mumbai (MMR) · Maharashtra</div>
+              <div class="hud-psf" id="hudPsf">₹56,667 / sq.ft.</div>
+              <div class="hud-meta">Standard Reference Unit (3 BHK, 1,500 sq.ft.)</div>
+              <button type="button" class="btn btn-xs btn-hud-select" id="hudSelectBtn">Load in Estimator ↑</button>
+            </div>
+          </div>
+          <div class="legend-scale" id="mapScale"></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ METHODOLOGY ============ -->
+    <section id="method" class="section">
+      <header class="section-head reveal">
+        <p class="eyebrow">03 · Methodology & Provenance</p>
+        <h2>Model Architecture, Holdout Accuracy & Governance</h2>
+      </header>
+      <div class="method-grid">
+        <article class="panel reveal">
+          <header class="card-head"><h3>Holdout Validation Performance</h3><span class="muted small" id="modelMeta"></span></header>
+          <div class="tiles" id="metricTiles"></div>
+          <figure class="chart" id="accuracyChart" aria-label="Error comparison between model, baseline and noise floor"></figure>
+        </article>
+        <article class="panel reveal shield-card">
+          <svg class="ico big" aria-hidden="true"><use href="#i-shield"/></svg>
+          <h3>Data Provenance</h3>
+          <p id="provText"></p>
+          <h3>Operational Boundaries</h3>
+          <ul class="limits">
+            <li>State-level stamp duty schedules reflect current statutory benchmarks; municipal surcharges and gender rebates must be verified prior to conveyance.</li>
+            <li>GST calculations model standard rates; under-construction homes eligible for one-third land abatement may see adjusted liability.</li>
+            <li>The P10–P90 interval models predictive uncertainty rather than an appraisal guarantee.</li>
+            <li>Valuations reflect data-grounded market patterns and do not substitute for in-person physical survey appraisals.</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ ADVISOR CONCIERGE ============ -->
+    <section id="ask" class="section">
+      <header class="section-head reveal">
+        <p class="eyebrow">04 · Advisor Concierge</p>
+        <h2>Direct Valuation Q&amp;A</h2>
+        <p class="muted">Ask specific questions regarding acquisition outlays, EMI affordability, or statutory taxes. Responses are strictly grounded in your active valuation calculations.</p>
+      </header>
+      <div class="panel chat reveal">
+        <div class="chips" id="chips"></div>
+        <div class="chat-log" id="chatLog" aria-live="polite"></div>
+        <form class="chat-form" id="chatForm">
+          <label class="sr-only" for="chatInput">Your question</label>
+          <input id="chatInput" type="text" maxlength="500" placeholder="e.g., How much total upfront equity is required including stamp duty?" autocomplete="off">
+          <button class="btn btn-primary" type="submit" aria-label="Send">
+            <svg class="ico" aria-hidden="true"><use href="#i-send"/></svg>
+          </button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="foot-brand">
+      <svg class="logo sm" viewBox="0 0 40 40" aria-hidden="true">
+        <path d="M5 21L20 8l15 13v13a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V21z" fill="none" stroke="currentColor" stroke-width="2"/>
+        <path d="M13 18h11M13 24h8M13 30h11" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      </svg>
+      <span>EstateIQ</span>
+    </div>
+    <p class="muted small">EstateIQ provides algorithmic residential valuations and financial analytics for advisory and planning purposes. Powered by the EstateIQ Valuation Core (derived from GrihaValue framework). Data provenance is stated, never inferred.</p>
+  </footer>
+
+  <!-- ============ CONTACT OUR TEAM & VALUATION DOSSIER MODAL ============ -->
+  <div class="modal-backdrop" id="contactModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-container">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="modal-eyebrow">ESTATEIQ PRIVATE CLIENT DESK · VALUATION DOSSIER</span>
+          <h2 id="modalTitle" class="modal-title">Consult Our Valuation Advisory Team</h2>
+        </div>
+        <button type="button" class="modal-close-btn" id="modalCloseBtn" aria-label="Close modal">
+          <svg class="ico sm" aria-hidden="true"><use href="#i-close"/></svg>
+        </button>
+      </div>
+
+      <!-- VIEW 1: Form View -->
+      <div class="modal-view" id="modalFormView">
+        <p class="modal-desc">
+          Connect directly with our quantitative real estate analysts. We will generate and deliver a comprehensive, certified residential valuation dossier grounded in EstateIQ's predictive machine learning models.
+        </p>
+
+        <!-- Active Valuation Context Card -->
+        <div class="modal-context-card" id="modalContextCard">
+          <div class="context-card-badge">
+            <svg class="ico xs" aria-hidden="true"><use href="#i-sparkle"/></svg>
+            <span>ACTIVE VALUATION CONTEXT</span>
+          </div>
+          <div class="context-card-details">
+            <div class="context-prop-title" id="modalContextProp">Mumbai (MMR) · Worli Sea Face (3 BHK · 2,200 sq.ft.)</div>
+            <div class="context-prop-metrics">
+              <span class="context-metric">Est. Value: <strong id="modalContextPrice">₹18.42 Cr</strong></span>
+              <span class="context-divider">·</span>
+              <span class="context-metric">Rate: <strong id="modalContextPsf">₹83,727 / sq.ft.</strong></span>
+              <span class="context-divider">·</span>
+              <span class="context-metric">Statutory Taxes: <strong id="modalContextTax">Included</strong></span>
+            </div>
+          </div>
+        </div>
+
+        <form id="teamContactForm" class="modal-form" novalidate>
+          <div class="form-row two-col">
+            <div class="form-group">
+              <label for="clientName">Full Name <span class="req">*</span></label>
+              <input type="text" id="clientName" name="name" required placeholder="e.g. Aditya Singhania" autocomplete="name">
+            </div>
+            <div class="form-group">
+              <label for="clientEmail">Email Address <span class="req">*</span></label>
+              <input type="email" id="clientEmail" name="email" required placeholder="e.g. aditya@singhania.in" autocomplete="email">
+            </div>
+          </div>
+
+          <div class="form-row two-col">
+            <div class="form-group">
+              <label for="clientPhone">Phone / WhatsApp <span class="req">*</span></label>
+              <input type="tel" id="clientPhone" name="phone" required placeholder="e.g. +91 98200 12345" autocomplete="tel">
+            </div>
+            <div class="form-group">
+              <label for="advisoryType">Advisory Specialization</label>
+              <select id="advisoryType" name="advisory_type">
+                <option value="Full Acquisition Report & Valuation Audit">Full Acquisition Report &amp; Valuation Audit</option>
+                <option value="RBI LTV & High-Value Home Loan Structuring">RBI LTV &amp; High-Value Home Loan Structuring</option>
+                <option value="Micro-Market Appreciation & Yield Analysis">Micro-Market Appreciation &amp; Yield Analysis</option>
+                <option value="Statutory Stamp Duty & Municipal Tax Review">Statutory Stamp Duty &amp; Municipal Tax Review</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Preferred Contact Channel</label>
+            <div class="contact-channels" id="channelGroup" role="radiogroup">
+              <button type="button" class="channel-btn active" data-channel="whatsapp" role="radio" aria-checked="true">
+                WhatsApp
+              </button>
+              <button type="button" class="channel-btn" data-channel="phone" role="radio" aria-checked="false">
+                Direct Call
+              </button>
+              <button type="button" class="channel-btn" data-channel="email" role="radio" aria-checked="false">
+                Email
+              </button>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="clientNotes">Specific Advisory Inquiries / Notes (Optional)</label>
+            <textarea id="clientNotes" name="notes" rows="3" placeholder="e.g. Inquiring regarding secondary market acquisitions in South Mumbai and maximum sanctioned loan limits."></textarea>
+          </div>
+
+          <div class="modal-form-error" id="modalFormError" hidden></div>
+
+          <div class="modal-form-actions">
+            <button type="submit" class="btn-dossier-submit" id="contactSubmitBtn">
+              <svg class="ico sm" aria-hidden="true"><use href="#i-sparkle"/></svg>
+              <span>SUBMIT &amp; GENERATE FULL DETAILED REPORT</span>
+            </button>
+          </div>
+          <p class="modal-form-footnote">
+            Data provenance is verified against NHB RESIDEX and state statutory stamp registers. All figures are strictly computed by EstateIQ's machine learning model.
+          </p>
+        </form>
+      </div>
+
+      <!-- VIEW 2: Full Detailed Valuation Dossier Report View -->
+      <div class="modal-view" id="modalReportView" hidden>
+        <div class="dossier-report">
+          <!-- Hero Band -->
+          <div class="dossier-hero-band">
+            <div class="dossier-meta-strip">
+              <div class="dossier-ref">
+                <span>REF:</span>
+                <span id="repRef">EID-2026-MUM-8491</span>
+              </div>
+              <span class="badge-verified">
+                <svg class="ico xs" aria-hidden="true"><use href="#i-check"/></svg>
+                <span>ML Model Grounded &amp; Certified</span>
+              </span>
+            </div>
+            <h3 class="dossier-prop-heading" id="repPropHeading">3 BHK Apartment · Worli Sea Face, Mumbai (MMR)</h3>
+            <div class="dossier-price-showcase">
+              <div class="price-showcase-primary">
+                <div class="lbl">Predicted Fair Market Valuation</div>
+                <div class="val" id="repPrice">₹18.42 Cr</div>
+              </div>
+              <div class="price-showcase-secondary">
+                <div class="showcase-stat">
+                  <span class="s-lbl">Rate / Sq.Ft.:</span>
+                  <span class="s-val" id="repPsf">₹83,727 / sq.ft.</span>
+                </div>
+                <div class="showcase-stat">
+                  <span class="s-lbl">P10–P90 Range:</span>
+                  <span class="s-val" id="repRange">₹16.95 Cr – ₹20.15 Cr</span>
+                </div>
+                <div class="showcase-stat">
+                  <span class="s-lbl">City Median Var:</span>
+                  <span class="s-val" id="repVsCity">+18.4% vs City</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Client & Advisory Dossier Metadata -->
+          <div class="dossier-section">
+            <h4 class="dossier-section-title">
+              <svg class="ico sm" aria-hidden="true"><use href="#i-doc"/></svg>
+              <span>Client &amp; Consultation Dossier Info</span>
+            </h4>
+            <table class="dossier-table">
+              <tbody>
+                <tr>
+                  <td class="col-lbl">Prepared For</td>
+                  <td class="col-val" id="repClientName">Aditya Singhania</td>
+                </tr>
+                <tr>
+                  <td class="col-lbl">Client Contact Details</td>
+                  <td class="col-val" id="repClientContact">aditya@singhania.in · +91 98200 12345 (WhatsApp)</td>
+                </tr>
+                <tr>
+                  <td class="col-lbl">Advisory Specialization</td>
+                  <td class="col-val" id="repAdvisoryType">Full Acquisition Report &amp; Valuation Audit</td>
+                </tr>
+                <tr>
+                  <td class="col-lbl">Date &amp; Timestamp</td>
+                  <td class="col-val" id="repTimestamp">12 Oct 2026, 20:30 IST</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Property Specifications Table -->
+          <div class="dossier-section">
+            <h4 class="dossier-section-title">
+              <svg class="ico sm" aria-hidden="true"><use href="#i-home"/></svg>
+              <span>Property Architectural Specifications</span>
+            </h4>
+            <table class="dossier-table">
+              <tbody>
+                <tr>
+                  <td class="col-lbl">Location / Micro-Market</td>
+                  <td class="col-val" id="repLocality">Worli Sea Face, Mumbai (MMR), Maharashtra</td>
+                </tr>
+                <tr>
+                  <td class="col-lbl">Configuration &amp; Layout</td>
+                  <td class="col-val" id="repLayout">3 BHK Apartment</td>
+                </tr>
+                <tr>
+                  <td class="col-lbl">Super Built-up / Carpet Area</td>
+                  <td class="col-val" id="repArea">2,200 sq.ft.</td>
+                </tr>
+                <tr>
+                  <td class="col-lbl">Bathrooms &amp; Parking Bays</td>
+                  <td class="col-val" id="repSpecs">3 Bathrooms · 2 Dedicated Bays</td>
+                </tr>
+                <tr>
+                  <td class="col-lbl">Construction Status &amp; Age</td>
+                  <td class="col-val" id="repStatus">Ready to Move · 2 Years Age</td>
+                </tr>
+                <tr>
+                  <td class="col-lbl">Furnishing Level</td>
+                  <td class="col-val" id="repFurnishing">Semi-Furnished</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Complete Acquisition & Statutory Tax Breakdown -->
+          <div class="dossier-section">
+            <h4 class="dossier-section-title">
+              <svg class="ico sm" aria-hidden="true"><use href="#i-shield"/></svg>
+              <span>Statutory Acquisition Outlay &amp; Tax Audit</span>
+            </h4>
+            <table class="dossier-table">
+              <tbody>
+                <tr>
+                  <td class="col-lbl">Base Property Consideration</td>
+                  <td class="col-val" id="repBasePrice">₹18,42,00,000</td>
+                </tr>
+                <tr>
+                  <td class="col-lbl">Stamp Duty &amp; Registration Fee</td>
+                  <td class="col-val" id="repStampDuty">₹1,10,82,000</td>
+                </tr>
+                <tr>
+                  <td class="col-lbl">Goods &amp; Services Tax (GST)</td>
+                  <td class="col-val" id="repGst">Nil (Ready to Move)</td>
+                </tr>
+                <tr class="highlight">
+                  <td class="col-lbl">Total Comprehensive Acquisition Cost</td>
+                  <td class="col-val" id="repTotalCost">₹19,52,82,000</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Audited Statutory Legal Citations & Effective Dates Table -->
+          <div class="dossier-section">
+            <h4 class="dossier-section-title">
+              <svg class="ico sm" aria-hidden="true"><use href="#i-shield"/></svg>
+              <span>Audited Statutory Citations &amp; Legal References</span>
+            </h4>
+            <table class="dossier-table" id="repStatutoryTable">
+              <tbody>
+                <tr>
+                  <td class="col-lbl">State Stamp Duty Gazette Notification</td>
+                  <td class="col-val" id="repStampCitation">Maharashtra Stamp Act (Schedule I, Art 25) / IGRS Gazette</td>
+                </tr>
+                <tr>
+                  <td class="col-lbl">Goods &amp; Services Tax (GST) Notification</td>
+                  <td class="col-val" id="repGstCitation">Schedule III CGST Act (Ready to Move: 0%)</td>
+                </tr>
+                <tr>
+                  <td class="col-lbl">RBI Maximum Loan-to-Value Direction</td>
+                  <td class="col-val" id="repLtvCitation">RBI Master Direction - Housing Finance, Annex I (75% Cap)</td>
+                </tr>
+                <tr>
+                  <td class="col-lbl">Statutory Provenance Verification Status</td>
+                  <td class="col-val" id="repRuleStatus"><span class="badge up">VERIFIED</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Banking, RBI LTV & EMI Financing Schedule -->
+          <div class="dossier-section">
+            <h4 class="dossier-section-title">
+              <svg class="ico sm" aria-hidden="true"><use href="#i-chart"/></svg>
+              <span>RBI LTV Banking Limits &amp; EMI Schedule</span>
+            </h4>
+            <table class="dossier-table">
+              <tbody>
+                <tr>
+                  <td class="col-lbl">Maximum Sanctioned Bank Loan (LTV Tier)</td>
+                  <td class="col-val" id="repLoanAmount">₹13,81,50,000 (75% Cap)</td>
+                </tr>
+                <tr>
+                  <td class="col-lbl">Down Payment Equity (Buyer Equity)</td>
+                  <td class="col-val" id="repDownPayment">₹4,60,50,000 (25%)</td>
+                </tr>
+                <tr class="highlight">
+                  <td class="col-lbl">Total Upfront Cash Required (Equity + All Taxes)</td>
+                  <td class="col-val" id="repUpfrontCash">₹5,71,32,000</td>
+                </tr>
+                <tr>
+                  <td class="col-lbl">Monthly EMI (Principal + Interest)</td>
+                  <td class="col-val" id="repMonthlyEmi">₹11,98,400 / month</td>
+                </tr>
+                <tr>
+                  <td class="col-lbl">Financing Parameters Applied</td>
+                  <td class="col-val" id="repFinTerms">8.50% p.a. · 20 Years Tenure</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Micro-Market Comparable Transactions -->
+          <div class="dossier-section">
+            <h4 class="dossier-section-title">
+              <svg class="ico sm" aria-hidden="true"><use href="#i-plan"/></svg>
+              <span>Micro-Market Comparable Transactions</span>
+            </h4>
+            <div class="dossier-comparables-grid" id="repComparablesGrid">
+              <!-- Dynamically populated comparables -->
+            </div>
+          </div>
+
+          <!-- Data Provenance & Legal Attestation -->
+          <div class="dossier-provenance-box">
+            <strong>Data Provenance &amp; Verification Attestation:</strong>
+            <p id="repProvenance">All valuation metrics are strictly generated using EstateIQ's Calibrated Stacking Regressor model bundle. Macro benchmarks originate from the National Housing Bank (NHB RESIDEX) and state statutory revenue schedules (IGRS Maharashtra). Loan-to-value ceilings adhere to the Reserve Bank of India Master Directions on residential advances.</p>
+          </div>
+
+          <!-- Dossier Actions -->
+          <div class="dossier-actions">
+            <button type="button" class="btn-dossier-action secondary" id="repBackBtn">
+              <span>← Back to Form</span>
+            </button>
+            <a id="repCertLink" target="_blank" rel="noopener" class="btn-dossier-action secondary" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; gap:8px;">
+              <svg class="ico sm" aria-hidden="true"><use href="#i-shield"/></svg>
+              <span>View Official Certificate</span>
+            </a>
+            <button type="button" class="btn-dossier-action primary" id="repPrintBtn">
+              <svg class="ico sm" aria-hidden="true"><use href="#i-printer"/></svg>
+              <span>Print / Save PDF Dossier</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ STATUTORY RULES EXPLORER MODAL ============ -->
+  <div class="modal-backdrop" id="rulesModal" role="dialog" aria-modal="true" aria-hidden="true" hidden>
+    <div class="modal-container rules-modal-container">
+      <div class="modal-header">
+        <div class="modal-title-group">
+          <span class="eyebrow">STATUTORY LEGAL DATABASE</span>
+          <h3 class="modal-headline">Active Financial Rules &amp; Provenance Citations</h3>
+        </div>
+        <button class="modal-close-btn" id="closeRulesModalBtn" type="button" aria-label="Close rules explorer">
+          <svg class="ico sm" aria-hidden="true"><use href="#i-close"/></svg>
+        </button>
+      </div>
+
+      <div class="rules-filter-pills" id="rulesFilterGroup" role="radiogroup" aria-label="Rule filters">
+        <button type="button" class="rules-filter-btn active" data-filter="all" role="radio" aria-checked="true">All Rules</button>
+        <button type="button" class="rules-filter-btn" data-filter="ltv" role="radio" aria-checked="false">RBI LTV Tiers</button>
+        <button type="button" class="rules-filter-btn" data-filter="stamp" role="radio" aria-checked="false">State Stamp Duties</button>
+        <button type="button" class="rules-filter-btn" data-filter="gst" role="radio" aria-checked="false">GST Rates</button>
+        <button type="button" class="rules-filter-btn" data-filter="bench" role="radio" aria-checked="false">Benchmark Rates</button>
+      </div>
+
+      <div class="rules-table-wrap">
+        <table class="rules-table" id="rulesExplorerTable">
+          <thead>
+            <tr>
+              <th>Rule / Dimension</th>
+              <th>Rate / Value</th>
+              <th>Official Citation &amp; Gazette Ref</th>
+              <th>Effective From</th>
+              <th>Audit Status</th>
+              <th>Primary Source</th>
+            </tr>
+          </thead>
+          <tbody id="rulesTableBody">
+            <!-- Populated via app.js -->
+          </tbody>
+        </table>
+      </div>
+
+      <div class="dossier-provenance-box">
+        <strong>Strict Data Provenance Standard:</strong>
+        All financial rules are effective-dated and backed by primary government circulars, statutory gazettes, and GST Council notifications. Unverified rules are explicitly marked as APPROXIMATE or UNVERIFIED.
+      </div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,14 @@
+# Pinned to the versions the shipped model bundle was trained with.
+# Retrain (python -m backend.train) after changing scikit-learn.
+fastapi==0.143.0
+uvicorn==0.54.0
+pydantic==2.14.1
+starlette==1.7.0
+scikit-learn==1.8.0
+pandas==2.3.3
+numpy==2.4.4
+joblib==1.5.3
+python-dotenv==1.2.2
+anthropic==1.13.0
+sqlalchemy>=2.0.0
+alembic>=1.13.0

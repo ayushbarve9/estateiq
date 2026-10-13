@@ -1,0 +1,233 @@
+[
+  {
+    "name": "ltv_threshold_tier_1",
+    "value": 3000000,
+    "source": "RBI Master Direction - Housing Finance, Annex I (LTV ratios). https://www.rbi.org.in/Scripts/BS_ViewMasCirculardetails.aspx?id=12513",
+    "status": "VERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "ltv_tier_1_ratio",
+    "value": 0.90,
+    "source": "RBI Master Direction - Housing Finance, Annex I (LTV ratios). https://www.rbi.org.in/Scripts/BS_ViewMasCirculardetails.aspx?id=12513",
+    "status": "VERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "ltv_threshold_tier_2",
+    "value": 7500000,
+    "source": "RBI Master Direction - Housing Finance, Annex I (LTV ratios). https://www.rbi.org.in/Scripts/BS_ViewMasCirculardetails.aspx?id=12513",
+    "status": "VERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "ltv_tier_2_ratio",
+    "value": 0.80,
+    "source": "RBI Master Direction - Housing Finance, Annex I (LTV ratios). https://www.rbi.org.in/Scripts/BS_ViewMasCirculardetails.aspx?id=12513",
+    "status": "VERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "ltv_tier_3_ratio",
+    "value": 0.75,
+    "source": "RBI Master Direction - Housing Finance, Annex I (LTV ratios). https://www.rbi.org.in/Scripts/BS_ViewMasCirculardetails.aspx?id=12513",
+    "status": "VERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "interest_rate_default_pct",
+    "value": 8.5,
+    "source": "indicative bank floating-rate ranges in backend/config.py",
+    "status": "UNVERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "interest_rate_min_pct",
+    "value": 6.5,
+    "source": "indicative bank floating-rate ranges in backend/config.py",
+    "status": "UNVERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "interest_rate_max_pct",
+    "value": 14.0,
+    "source": "indicative bank floating-rate ranges in backend/config.py",
+    "status": "UNVERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "tenure_default_yrs",
+    "value": 20,
+    "source": "No source documented in backend/config.py",
+    "status": "UNVERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "tenure_min_yrs",
+    "value": 5,
+    "source": "No source documented in backend/config.py",
+    "status": "UNVERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "tenure_max_yrs",
+    "value": 30,
+    "source": "No source documented in backend/config.py",
+    "status": "UNVERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "gst_under_construction_rate",
+    "value": 0.05,
+    "source": "GST Council notification 11/2019-Central Tax (Rate), as amended",
+    "status": "VERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "gst_affordable_rate",
+    "value": 0.01,
+    "source": "GST Council notification 11/2019-Central Tax (Rate), as amended",
+    "status": "VERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "gst_affordable_threshold",
+    "value": 4500000,
+    "source": "GST Council notification 11/2019-Central Tax (Rate), as amended",
+    "status": "VERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "stamp_duty_karnataka",
+    "value": 0.065,
+    "source": "Compiled from general knowledge of state schedule without live access to gazette (backend/config.py)",
+    "status": "UNVERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "stamp_duty_maharashtra",
+    "value": 0.060,
+    "source": "Compiled from general knowledge of state schedule without live access to gazette (backend/config.py)",
+    "status": "UNVERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "stamp_duty_delhi",
+    "value": 0.060,
+    "source": "Compiled from general knowledge of state schedule without live access to gazette (backend/config.py)",
+    "status": "UNVERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "stamp_duty_haryana",
+    "value": 0.080,
+    "source": "Compiled from general knowledge of state schedule without live access to gazette (backend/config.py)",
+    "status": "UNVERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "stamp_duty_uttar_pradesh",
+    "value": 0.080,
+    "source": "Compiled from general knowledge of state schedule without live access to gazette (backend/config.py)",
+    "status": "UNVERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "stamp_duty_telangana",
+    "value": 0.075,
+    "source": "Compiled from general knowledge of state schedule without live access to gazette (backend/config.py)",
+    "status": "UNVERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "stamp_duty_tamil_nadu",
+    "value": 0.070,
+    "source": "Compiled from general knowledge of state schedule without live access to gazette (backend/config.py)",
+    "status": "UNVERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "stamp_duty_west_bengal",
+    "value": 0.060,
+    "source": "Compiled from general knowledge of state schedule without live access to gazette (backend/config.py)",
+    "status": "UNVERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "stamp_duty_gujarat",
+    "value": 0.059,
+    "source": "Compiled from general knowledge of state schedule without live access to gazette (backend/config.py)",
+    "status": "UNVERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "stamp_duty_rajasthan",
+    "value": 0.060,
+    "source": "Compiled from general knowledge of state schedule without live access to gazette (backend/config.py)",
+    "status": "UNVERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "stamp_duty_chandigarh",
+    "value": 0.060,
+    "source": "Compiled from general knowledge of state schedule without live access to gazette (backend/config.py)",
+    "status": "UNVERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "stamp_duty_punjab",
+    "value": 0.080,
+    "source": "Compiled from general knowledge of state schedule without live access to gazette (backend/config.py)",
+    "status": "UNVERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "stamp_duty_madhya_pradesh",
+    "value": 0.075,
+    "source": "Compiled from general knowledge of state schedule without live access to gazette (backend/config.py)",
+    "status": "UNVERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "stamp_duty_kerala",
+    "value": 0.080,
+    "source": "Compiled from general knowledge of state schedule without live access to gazette (backend/config.py)",
+    "status": "UNVERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "stamp_duty_andhra_pradesh",
+    "value": 0.065,
+    "source": "Compiled from general knowledge of state schedule without live access to gazette (backend/config.py)",
+    "status": "UNVERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "stamp_duty_odisha",
+    "value": 0.060,
+    "source": "Compiled from general knowledge of state schedule without live access to gazette (backend/config.py)",
+    "status": "UNVERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "stamp_duty_bihar",
+    "value": 0.080,
+    "source": "Compiled from general knowledge of state schedule without live access to gazette (backend/config.py)",
+    "status": "UNVERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "stamp_duty_assam",
+    "value": 0.080,
+    "source": "Compiled from general knowledge of state schedule without live access to gazette (backend/config.py)",
+    "status": "UNVERIFIED",
+    "last_checked": "unrecorded"
+  },
+  {
+    "name": "stamp_duty_default",
+    "value": 0.065,
+    "source": "Compiled from general knowledge of state schedule without live access to gazette (backend/config.py)",
+    "status": "UNVERIFIED",
+    "last_checked": "unrecorded"
+  }
+]
