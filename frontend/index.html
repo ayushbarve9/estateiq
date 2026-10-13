@@ -274,7 +274,7 @@
     }
   </style>
 
-  <script type="module" src="/js/app.js?v=20261012-v15"></script>
+  <script type="module" src="/js/app.js?v=20261013-v1"></script>
 </head>
 <body>
   <!-- Icon sprite. Referenced with <use href="#i-…">. -->
@@ -956,8 +956,11 @@
             <span class="muted small">Select configurations or load your active valuation into any slot:</span>
           </div>
           <div class="battle-actions">
+            <button type="button" class="btn btn-secondary btn-xs" id="clearBattleBtn" hidden>
+              <span>Clear Comparison</span>
+            </button>
             <button type="button" class="btn btn-secondary btn-xs" id="loadPresetBattleBtn">
-              <span>Reset to Prime MMR Trio</span>
+              <span>Load Demo MMR Trio</span>
             </button>
             <button type="button" class="btn btn-primary btn-xs" id="loadActiveIntoSlot1Btn">
               <svg class="ico xs" aria-hidden="true"><use href="#i-sparkle"/></svg>
@@ -966,7 +969,7 @@
           </div>
         </div>
 
-        <div class="battle-winners-strip" id="battleWinnersStrip">
+        <div class="battle-winners-strip" id="battleWinnersStrip" hidden>
           <div class="winner-chip">
             <span class="lbl">Lowest Upfront Cash:</span>
             <strong id="winCash">–</strong>

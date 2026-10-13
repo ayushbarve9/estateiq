@@ -2107,22 +2107,21 @@ async function renderInfraProjects(est) {
 }
 
 // ---------------------------------------------------------------------------
+// ---------------------------------------------------------------------------
 // Side-by-Side Property Battle
 // ---------------------------------------------------------------------------
 
-let battleSlots = [
+const MMR_BENCHMARK_TRIO = [
   { name: "Worli Sea Face 3 BHK", locality: "Worli Sea Face", city: "Mumbai (MMR)", bhk: 3, area_sqft: 2200, age_years: 2, property_value: 184200000, rental_yield_pct: 2.4 },
   { name: "Bandra West 3 BHK", locality: "Bandra West", city: "Mumbai (MMR)", bhk: 3, area_sqft: 1850, age_years: 3, property_value: 145200000, rental_yield_pct: 2.7 },
   { name: "Powai Hiranandani 2 BHK", locality: "Powai Hiranandani", city: "Mumbai (MMR)", bhk: 2, area_sqft: 1100, age_years: 4, property_value: 35800000, rental_yield_pct: 3.9 },
 ];
 
+let battleSlots = [];
+
 function initPropertyBattle() {
   $("#loadPresetBattleBtn")?.addEventListener("click", () => {
-    battleSlots = [
-      { name: "Worli Sea Face 3 BHK", locality: "Worli Sea Face", city: "Mumbai (MMR)", bhk: 3, area_sqft: 2200, age_years: 2, property_value: 184200000, rental_yield_pct: 2.4 },
-      { name: "Bandra West 3 BHK", locality: "Bandra West", city: "Mumbai (MMR)", bhk: 3, area_sqft: 1850, age_years: 3, property_value: 145200000, rental_yield_pct: 2.7 },
-      { name: "Powai Hiranandani 2 BHK", locality: "Powai Hiranandani", city: "Mumbai (MMR)", bhk: 2, area_sqft: 1100, age_years: 4, property_value: 35800000, rental_yield_pct: 3.9 },
-    ];
+    battleSlots = JSON.parse(JSON.stringify(MMR_BENCHMARK_TRIO));
     runPropertyBattle();
   });
 
@@ -2130,13 +2129,157 @@ function initPropertyBattle() {
     loadActiveIntoBattleSlot1();
   });
 
+  $("#clearBattleBtn")?.addEventListener("click", () => {
+    battleSlots = [];
+    renderBattleState();
+  });
+
+  // Start with empty comparison matrix by default (no demo properties loaded until manually initiated)
+  renderBattleState();
+}
+
+function renderBattleState() {
+  const grid = $("#battleCardsGrid");
+  const winnersStrip = $("#battleWinnersStrip");
+  const clearBtn = $("#clearBattleBtn");
+
+  if (!grid) return;
+
+  if (clearBtn) {
+    clearBtn.hidden = battleSlots.length === 0;
+  }
+
+  // 1. EMPTY STATE: 0 properties loaded
+  if (battleSlots.length === 0) {
+    if (winnersStrip) winnersStrip.hidden = true;
+    grid.innerHTML = `
+      <div class="battle-empty-state">
+        <div class="battle-empty-icon-wrap">
+          <svg class="ico" aria-hidden="true"><use href="#i-chart"/></svg>
+        </div>
+        <h3 class="battle-empty-title">Load Properties for Comparison</h3>
+        <p class="battle-empty-desc">
+          No properties are currently loaded for comparison. Add your active calculated valuation or choose benchmark residences whenever you want to compare capital outlay, monthly EMIs, and net investment yield head-to-head.
+        </p>
+        <div class="battle-empty-actions">
+          <button type="button" class="btn btn-primary btn-sm" id="emptyLoadActiveBtn">
+            <svg class="ico xs" aria-hidden="true"><use href="#i-sparkle"/></svg>
+            <span>Load Active Valuation into Slot 1</span>
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" id="emptyLoadBenchmarkBtn">
+            <span>Load Demo MMR Trio</span>
+          </button>
+        </div>
+        <div id="battleEmptyAlert" class="battle-empty-alert" style="display:none;"></div>
+      </div>
+    `;
+
+    $("#emptyLoadActiveBtn")?.addEventListener("click", () => {
+      loadActiveIntoBattleSlot1();
+    });
+
+    $("#emptyLoadBenchmarkBtn")?.addEventListener("click", () => {
+      battleSlots = JSON.parse(JSON.stringify(MMR_BENCHMARK_TRIO));
+      runPropertyBattle();
+    });
+
+    return;
+  }
+
+  // 2. PARTIAL STATE: 1 property loaded (Slot 1 loaded, Slot 2 & 3 empty)
+  if (battleSlots.length === 1) {
+    if (winnersStrip) winnersStrip.hidden = true;
+    const p1 = battleSlots[0];
+    const ratePsf = Math.round(p1.property_value / (p1.area_sqft || 1));
+    const approxDown = p1.property_value * 0.20;
+    const approxStamp = p1.property_value * 0.06;
+    const approxUpfront = approxDown + approxStamp;
+
+    grid.innerHTML = `
+      <div class="battle-slot-card">
+        <div class="battle-card-header">
+          <div>
+            <span class="slot-tag">SLOT 01 · ACTIVE</span>
+            <h4 class="slot-prop-name">${escapeHtml(p1.name)}</h4>
+          </div>
+          <button type="button" class="slot-remove-btn" data-remove-slot="0" title="Remove property">✕</button>
+        </div>
+
+        <div class="slot-prop-price">${fmtCompact(p1.property_value)}</div>
+        <small class="muted" style="margin-top:-10px;">${fmtINR(ratePsf)} / sq.ft. · ${p1.bhk} BHK · ${Math.round(p1.area_sqft)} sq.ft.</small>
+
+        <table class="slot-metrics-table">
+          <tr><td>Est. Upfront Cash:</td><td><strong>${fmtCompact(approxUpfront)}</strong></td></tr>
+          <tr><td>Down Payment (20%):</td><td>${fmtCompact(approxDown)}</td></tr>
+          <tr><td>Stamp Duty (est.):</td><td>${fmtCompact(approxStamp)}</td></tr>
+          <tr><td>Locality:</td><td><strong>${escapeHtml(p1.locality)}</strong></td></tr>
+          <tr><td>City:</td><td>${escapeHtml(p1.city)}</td></tr>
+          <tr><td>Rental Yield:</td><td><strong class="highlight-emerald">${p1.rental_yield_pct}%</strong></td></tr>
+        </table>
+
+        <div class="slot-verdict-banner">
+          <strong class="highlight-gold" style="display:block; margin-bottom:2px;">Slot 01 Anchored</strong>
+          <span>Select a second residence in Slot 02 below to calculate statutory stamp duty deltas, EMI comparison, and AI verdicts.</span>
+        </div>
+      </div>
+
+      <div class="battle-slot-placeholder">
+        <div class="placeholder-header">
+          <span class="placeholder-tag">SLOT 02 · SELECT PROPERTY</span>
+        </div>
+        <div class="placeholder-body">
+          <h5>Add Property to Compare</h5>
+          <p>Choose an MMR benchmark to run head-to-head analysis against Slot 01:</p>
+          <div class="placeholder-options">
+            <button type="button" class="placeholder-quick-btn" data-add-benchmark="1">
+              <span>+ Bandra West 3 BHK</span>
+              <span class="btn-price">₹14.5 Cr</span>
+            </button>
+            <button type="button" class="placeholder-quick-btn" data-add-benchmark="2">
+              <span>+ Powai Hiranandani 2 BHK</span>
+              <span class="btn-price">₹3.58 Cr</span>
+            </button>
+            <button type="button" class="placeholder-quick-btn" data-add-benchmark="0">
+              <span>+ Worli Sea Face 3 BHK</span>
+              <span class="btn-price">₹18.4 Cr</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="battle-slot-placeholder" style="opacity:0.65;">
+        <div class="placeholder-header">
+          <span class="placeholder-tag">SLOT 03 · OPTIONAL</span>
+        </div>
+        <div class="placeholder-body">
+          <h5>Slot 03 Available</h5>
+          <p>You can compare up to 3 residences simultaneously once Slot 02 is loaded.</p>
+        </div>
+      </div>
+    `;
+
+    bindBattleSlotEvents();
+    return;
+  }
+
+  // 3. FULL COMPARISON: >= 2 properties loaded
   runPropertyBattle();
 }
 
 function loadActiveIntoBattleSlot1() {
-  if (!state.est) return;
+  const alertEl = $("#battleEmptyAlert");
+  if (!state.est) {
+    if (alertEl) {
+      alertEl.textContent = "Please calculate a property valuation in Section 01 above first, or load demo benchmark properties.";
+      alertEl.style.display = "inline-flex";
+      setTimeout(() => { if (alertEl) alertEl.style.display = "none"; }, 4000);
+    }
+    $("#estimate")?.scrollIntoView({ behavior: "smooth" });
+    return;
+  }
+
   const e = state.est;
-  battleSlots[0] = {
+  const activeObj = {
     name: `${e.locality} ${e.bhk} BHK (Active Valuation)`,
     locality: e.locality,
     city: e.city,
@@ -2146,12 +2289,29 @@ function loadActiveIntoBattleSlot1() {
     property_value: e.predicted_price,
     rental_yield_pct: e.city?.includes("Mumbai") ? 2.6 : 3.5,
   };
-  runPropertyBattle();
+
+  if (battleSlots.length === 0) {
+    battleSlots = [activeObj];
+  } else {
+    battleSlots[0] = activeObj;
+  }
+
+  renderBattleState();
+  $("#propBattle")?.scrollIntoView({ behavior: "smooth" });
 }
 
 async function runPropertyBattle() {
   const grid = $("#battleCardsGrid");
+  const winnersStrip = $("#battleWinnersStrip");
+  const clearBtn = $("#clearBattleBtn");
+
   if (!grid) return;
+  if (battleSlots.length < 2) {
+    renderBattleState();
+    return;
+  }
+
+  if (clearBtn) clearBtn.hidden = false;
 
   try {
     const res = await fetch("/api/finance/compare-properties", {
@@ -2162,20 +2322,26 @@ async function runPropertyBattle() {
     if (!res.ok) throw new Error(await errorText(res));
     const data = await res.json();
 
-    const winners = data.winner_summary || {};
-    $("#winCash").textContent = winners.lowest_upfront_cash || "–";
-    $("#winYield").textContent = winners.highest_rental_yield || "–";
-    $("#winEmi").textContent = winners.lowest_monthly_emi || "–";
-    $("#winPsf").textContent = winners.best_value_rate_per_sqft || "–";
+    if (winnersStrip) {
+      winnersStrip.hidden = false;
+      const winners = data.winner_summary || {};
+      $("#winCash").textContent = winners.lowest_upfront_cash || "–";
+      $("#winYield").textContent = winners.highest_rental_yield || "–";
+      $("#winEmi").textContent = winners.lowest_monthly_emi || "–";
+      $("#winPsf").textContent = winners.best_value_rate_per_sqft || "–";
+    }
 
-    grid.innerHTML = (data.properties || []).map((p, idx) => `
+    const cardsHtml = (data.properties || []).map((p, idx) => `
       <div class="battle-slot-card">
         <div class="battle-card-header">
           <div>
             <span class="slot-tag">SLOT 0${idx + 1}</span>
             <h4 class="slot-prop-name">${escapeHtml(p.name)}</h4>
           </div>
-          <span class="tag">${p.bhk} BHK · ${Math.round(p.area_sqft)} sq.ft.</span>
+          <div style="display:flex; align-items:center; gap:8px;">
+            <span class="tag">${p.bhk} BHK · ${Math.round(p.area_sqft)} sq.ft.</span>
+            <button type="button" class="slot-remove-btn" data-remove-slot="${idx}" title="Remove property">✕</button>
+          </div>
         </div>
 
         <div class="slot-prop-price">${fmtCompact(p.property_value)}</div>
@@ -2196,9 +2362,74 @@ async function runPropertyBattle() {
         </div>
       </div>
     `).join("");
+
+    let slot3Html = "";
+    if (data.properties.length === 2) {
+      const existingNames = battleSlots.map(s => s.name);
+      const remainingBench = MMR_BENCHMARK_TRIO.find(b => !existingNames.includes(b.name)) || MMR_BENCHMARK_TRIO[0];
+      slot3Html = `
+        <div class="battle-slot-placeholder">
+          <div class="placeholder-header">
+            <span class="placeholder-tag">SLOT 03 · OPTIONAL</span>
+          </div>
+          <div class="placeholder-body">
+            <h5>Add a 3rd Residence</h5>
+            <p>Expand comparison to a 3-way matrix:</p>
+            <div class="placeholder-options">
+              <button type="button" class="placeholder-quick-btn" data-add-benchmark-obj='${JSON.stringify(remainingBench).replace(/'/g, "&apos;")}'>
+                <span>+ ${escapeHtml(remainingBench.name)}</span>
+                <span class="btn-price">${fmtCompact(remainingBench.property_value)}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    grid.innerHTML = cardsHtml + slot3Html;
+    bindBattleSlotEvents();
   } catch (err) {
     console.warn("Could not run property battle:", err);
   }
+}
+
+function bindBattleSlotEvents() {
+  const grid = $("#battleCardsGrid");
+  if (!grid) return;
+
+  grid.querySelectorAll("[data-remove-slot]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const idx = parseInt(btn.getAttribute("data-remove-slot"), 10);
+      if (!isNaN(idx)) {
+        battleSlots.splice(idx, 1);
+        renderBattleState();
+      }
+    });
+  });
+
+  grid.querySelectorAll("[data-add-benchmark]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const benchIdx = parseInt(btn.getAttribute("data-add-benchmark"), 10);
+      if (MMR_BENCHMARK_TRIO[benchIdx]) {
+        battleSlots.push(JSON.parse(JSON.stringify(MMR_BENCHMARK_TRIO[benchIdx])));
+        runPropertyBattle();
+      }
+    });
+  });
+
+  grid.querySelectorAll("[data-add-benchmark-obj]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      try {
+        const obj = JSON.parse(btn.getAttribute("data-add-benchmark-obj"));
+        if (obj) {
+          battleSlots.push(obj);
+          runPropertyBattle();
+        }
+      } catch (e) {
+        console.warn(e);
+      }
+    });
+  });
 }
 
 // ---------------------------------------------------------------------------
